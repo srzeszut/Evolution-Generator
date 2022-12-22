@@ -2,7 +2,9 @@ package elements;
 
 import enums.MapDirection;
 import enums.MoveDirection;
+import interfaces.IGeneChoice;
 import interfaces.IMapElement;
+import interfaces.IMutation;
 import interfaces.IPositionChangeObserver;
 import maps.AbstractWorldMap;
 
@@ -17,15 +19,21 @@ public class Animal extends AbstractMapElement {
     private MapDirection direction;
     private int energy;
     private final int startingEnergy;
+    private IMutation mutation;
     private Genome genome;
-    private final int numberOfGenes=15;
+    private IGeneChoice geneChoice;
+    private int activatedGene;
+    private int numberOfGenes=15;
     private  ArrayList<IPositionChangeObserver> positionChangeObservers;
 
-    public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,Genome genome){//ewentualnie 2 konstruktory
+    public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,Genome genome,IMutation mutation,IGeneChoice geneChoice){//ewentualnie 2 konstruktory
         this.position = initialPosition;
         this.map = map;
+        this.mutation=mutation;
         this.energy=energy;
         this.startingEnergy=energy;
+        this.activatedGene=0;
+        this.geneChoice=geneChoice;
 //        this.genome=new Genome(numberOfGenes);
         this.genome=genome;
         this.direction=direction.setRandomOrientation();
@@ -45,19 +53,16 @@ public class Animal extends AbstractMapElement {
         return this.energy==0;
     }
 
-    public void move(MoveDirection direction){
-        Vector2d newPosition= position;
-        switch(direction){
-            case LEFT-> this.direction =this.direction.previous();
-            case RIGHT -> this.direction =this.direction.next();
-            case FORWARD->{
-                newPosition = this.position.add(this.direction.toUnitVector());
-            }
-            case BACKWARD->{
-                newPosition = this.position.subtract(this.direction.toUnitVector());
-            }
-
+    public void rotate(){
+        int numberOfRotations=genome.getGenes()[activatedGene];
+        for (int i = 0; i < numberOfRotations; i++) {
+                this.direction.next();
         }
+        this.activatedGene=this.geneChoice.choose(genome.getGenes(),activatedGene);
+    }
+    public void move(){
+        Vector2d newPosition= this.position.add(this.direction.toUnitVector());
+
 //        if(map.canMoveTo(newPosition))
 //            this.positionChanged(this.position,newPosition);
 //        this.position = newPosition;
@@ -79,7 +84,7 @@ public class Animal extends AbstractMapElement {
         }
     }
 
-    public Animal reproduce(Animal otherAnimal){
+    public void reproduce(Animal otherAnimal){
         int childEnergy=(int)(this.energy*reproductionCost + otherAnimal.energy*reproductionCost);
         this.energy=(int)((1-reproductionCost)*this.energy);
         otherAnimal.energy=(int)((1-reproductionCost)*otherAnimal.energy);
@@ -95,10 +100,10 @@ public class Animal extends AbstractMapElement {
             weakerParent=this;
 
         }
-        Genome childGenome = new Genome(strongerParent.genome,weakerParent.genome,strongerParent.energy, weakerParent.energy, numberOfGenes);
-        Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome);
-
-        return childAnimal;
+        Genome childGenome = new Genome(strongerParent.genome,weakerParent.genome,strongerParent.energy, weakerParent.energy, numberOfGenes,this.mutation);
+        Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome,this.mutation,this.geneChoice);
+        this.map.place(childAnimal);
+//        return childAnimal;
 
 
     }

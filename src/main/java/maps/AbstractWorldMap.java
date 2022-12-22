@@ -1,14 +1,20 @@
 package maps;
 
+import elements.AbstractMapElement;
 import elements.Animal;
 import elements.Vector2d;
+import interfaces.IFieldOption;
 import interfaces.IPositionChangeObserver;
 import interfaces.IWorldMap;
+
+import java.util.HashMap;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     protected int height;
     protected int width;
+    protected IFieldOption field;
+    protected HashMap<Vector2d, AbstractMapElement> mapElements = new HashMap<Vector2d, AbstractMapElement>();
 
 //    abstract Vector2d MoveTo(Animal animal ,Vector2d position);
 
@@ -18,10 +24,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return false;
     }
 
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return false;
-    }
 
     @Override
     public Object objectAt(Vector2d position) {
@@ -37,4 +39,5 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
 
     }
+    public
 }

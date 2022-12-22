@@ -1,9 +1,11 @@
 package elements;
 
+import interfaces.IFieldOption;
 import interfaces.IMapElement;
 
-abstract class AbstractMapElement implements IMapElement {
+public abstract class AbstractMapElement implements IMapElement {
     protected  Vector2d position;
+
 
     @Override
     public Vector2d getPosition() {

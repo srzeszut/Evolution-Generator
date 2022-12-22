@@ -6,16 +6,21 @@ import elements.Vector2d;
 
 public interface IWorldMap {
 
-    Vector2d MoveTo(Animal animal,Vector2d position);//returns position
+    boolean canMoveTo(Vector2d position);
 
+    Vector2d findNewPosition(Animal animal);//znajduje nową pozycje dla animala jeśli canmoveto zwróci fałsz
 
     boolean place(Animal animal);
 
 
-    boolean isOccupied(Vector2d position);
+   default boolean isOccupied(Vector2d position){
+       return objectAt(position) != null;
+    }
 
 
     Object objectAt(Vector2d position);
 
-    void remove(Animal animal);
+    void removeDead();
+    void addNewGrass();
+    void reproduction();
 }
