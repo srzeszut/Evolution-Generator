@@ -17,12 +17,12 @@ public class Vector2d {
         return output;
     }
 
-    boolean precedes(Vector2d other) {
+    public boolean precedes(Vector2d other) {
 
         return this.x <= other.x && this.y <= other.y;
     }
 
-    boolean follows(Vector2d other) {
+    public boolean follows(Vector2d other) {
 
         return this.x >= other.x && this.y >= other.y;
     }
@@ -80,6 +80,14 @@ public class Vector2d {
     @Override
     public int hashCode() {
         return Objects.hash(this.x, this.y);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
 

@@ -4,24 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="project start">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/geneBehaviors/Madness.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/geneBehaviors/predestination.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/interfaces/IGeneChoice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/interfaces/IMutation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mutations/LightMutation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mutations/RandomMutation.java" afterDir="false" />
+    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="added mutations and genechoices">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/AbstractMapElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/AbstractMapElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/elements/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Animal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/elements/Genome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Genome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Grass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Vector2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Vector2d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IPositionChangeObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IPositionChangeObserver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IWorldMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/maps/Earth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/Earth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/maps/PortalMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/PortalMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,15 +49,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -76,6 +71,8 @@
       <workItem from="1671538905373" duration="14966000" />
       <workItem from="1671619317763" duration="3459000" />
       <workItem from="1671718107678" duration="9919000" />
+      <workItem from="1671730673503" duration="105000" />
+      <workItem from="1671794792886" duration="9433000" />
     </task>
     <task id="LOCAL-00001" summary="project start">
       <created>1671579392497</created>
@@ -84,7 +81,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671579392497</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added mutations and genechoices">
+      <created>1671730723800</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1671730723800</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,6 +107,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="project start" />
-    <option name="LAST_COMMIT_MESSAGE" value="project start" />
+    <MESSAGE value="added mutations and genechoices" />
+    <option name="LAST_COMMIT_MESSAGE" value="added mutations and genechoices" />
   </component>
 </project>

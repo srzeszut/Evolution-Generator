@@ -23,16 +23,20 @@ public class Animal extends AbstractMapElement {
     private Genome genome;
     private IGeneChoice geneChoice;
     private int activatedGene;
-    private int numberOfGenes=15;
+    private int age;
+    private int numberOfChildren;
+    private int numberOfGenes=15;//pobiera w simulation
     private  ArrayList<IPositionChangeObserver> positionChangeObservers;
 
     public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,Genome genome,IMutation mutation,IGeneChoice geneChoice){//ewentualnie 2 konstruktory
-        this.position = initialPosition;
+        this.position = initialPosition;//random position
         this.map = map;
         this.mutation=mutation;
         this.energy=energy;
         this.startingEnergy=energy;
         this.activatedGene=0;
+        this.age=0;
+        this.numberOfChildren=0;
         this.geneChoice=geneChoice;
 //        this.genome=new Genome(numberOfGenes);
         this.genome=genome;
@@ -69,7 +73,7 @@ public class Animal extends AbstractMapElement {
 
     }
 
-    protected void addObserver(IPositionChangeObserver observer){
+    public void addObserver(IPositionChangeObserver observer){
         this.positionChangeObservers.add(observer);
 
 
@@ -80,7 +84,7 @@ public class Animal extends AbstractMapElement {
     }
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for(IPositionChangeObserver observer: positionChangeObservers){
-            observer.positionChanged(oldPosition,newPosition);
+            observer.positionChanged(this,oldPosition,newPosition);
         }
     }
 
@@ -102,6 +106,8 @@ public class Animal extends AbstractMapElement {
         }
         Genome childGenome = new Genome(strongerParent.genome,weakerParent.genome,strongerParent.energy, weakerParent.energy, numberOfGenes,this.mutation);
         Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome,this.mutation,this.geneChoice);
+        this.numberOfChildren++;
+        otherAnimal.numberOfChildren++;
         this.map.place(childAnimal);
 //        return childAnimal;
 
@@ -116,5 +122,22 @@ public class Animal extends AbstractMapElement {
         return null;
     }
 
+    public int getEnergy(){
+        return this.energy;
+    }
+    public int getAge(){
+        return this.age;
+    }
 
+    public int getNumberOfChildren(){
+        return this.numberOfChildren;
+    }
+
+    public int getActivatedGene(){
+        return  this.activatedGene;
+    }
+
+    public void setDirection(MapDirection direction) {
+        this.direction = direction;
+    }
 }

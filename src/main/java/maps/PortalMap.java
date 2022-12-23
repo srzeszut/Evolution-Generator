@@ -10,14 +10,14 @@ public class PortalMap extends AbstractWorldMap{
         this.width=width;
     }
 
-    private void teleport(Animal animal,Vector2d position){//przenosi animala po mapie a jak wychodzi zaz granice to teleportuje i zuzywa energie
 
-
-
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return false;
     }
 
     @Override
-    public Vector2d MoveTo(Animal animal, Vector2d position) {
+    public Vector2d findNewPosition(Animal animal, Vector2d wantedPosition) {
         return null;
     }
 }

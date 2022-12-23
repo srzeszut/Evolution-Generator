@@ -8,7 +8,7 @@ public interface IWorldMap {
 
     boolean canMoveTo(Vector2d position);
 
-    Vector2d findNewPosition(Animal animal);//znajduje nową pozycje dla animala jeśli canmoveto zwróci fałsz
+    Vector2d findNewPosition(Animal animal,Vector2d wantedPosition);//znajduje nową pozycje dla animala jeśli canmoveto zwróci fałsz
 
     boolean place(Animal animal);
 

@@ -54,7 +54,7 @@ public class Genome {
 
         }
 
-        int numberOfMutations=random.nextInt(numberOfGenes);
+        int numberOfMutations=random.nextInt(numberOfGenes);//min max liczba mutacji
         for(int i = 0;i<numberOfMutations;i++){
             int chooseGene=random.nextInt(numberOfGenes);
             this.genes[chooseGene]=this.mutation.mutate(this.genes[chooseGene]);
