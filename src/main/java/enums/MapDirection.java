@@ -68,7 +68,7 @@ public enum MapDirection {
         };
     }
 
-    public MapDirection setRandomOrientation(){
+    public static MapDirection setRandomOrientation(){
         Random random= new Random();
         int orientation=random.nextInt(8);
         return switch (orientation) {

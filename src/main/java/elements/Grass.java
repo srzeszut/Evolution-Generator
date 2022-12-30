@@ -8,14 +8,18 @@ public class Grass extends AbstractMapElement{
         this.position=position;
         this.energyValue=energy;
     }
+    public String toString() {
 
-    protected int getEnergy(){
+        return "*";
+    }
+
+    public int getEnergy(){
         return this.energyValue;
     }
 
     @Override
     public String getResource() {
-        return "src/main/resources/grass.png";
+        return "src/main/resources/grass.jpg";
     }
 
 }

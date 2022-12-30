@@ -23,4 +23,6 @@ public interface IWorldMap {
     void removeDead();
     void addNewGrass();
     void reproduction();
+    void eatGrass();
+    void moveAnimals();
 }

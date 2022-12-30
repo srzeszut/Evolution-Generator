@@ -2,12 +2,15 @@ package maps;
 
 import elements.Animal;
 import elements.Vector2d;
+import fields.AbstractField;
 
 public class PortalMap extends AbstractWorldMap{
 
-    public PortalMap(int height, int width){
-        this.height=height;
-        this.width=width;
+    public PortalMap(int width, int height, int startingGrass, int grassEnergy,
+                 int numberOfGrowingGrass, AbstractField field){
+        super(width,height,startingGrass,grassEnergy,numberOfGrowingGrass,field);
+        this.spawnGrass(startedGrass);
+
     }
 
 

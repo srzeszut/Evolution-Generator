@@ -1,51 +1,113 @@
 package fields;
 
+import elements.Grass;
 import elements.Vector2d;
-import interfaces.IFieldOption;
-import maps.AbstractWorldMap;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class ForestedEquator implements IFieldOption {
+public class ForestedEquator extends AbstractField {
 
-    private double favRatio=0.2;
-    private  double disfavRatio=0.8;
+
     @Override
-    public Vector2d[] favouredPositions(AbstractWorldMap map) {
-        ArrayList<Vector2d> newPositions=new ArrayList<>();
-        int startHeight=(int) (map.getHeight()*(disfavRatio/2));
-        int endHeight= startHeight+ (int) (map.getHeight()*(favRatio));
-        for(int i=startHeight;i<endHeight;i++){
-            for(int j=0;j<map.getWidth();j++){
-                Vector2d newPosition= new Vector2d(j,i);
-                if(map.getGrassPositions().get(newPosition) == null){
-                   newPositions.add(newPosition);
+    public void generatePositions()
+    {
+
+        int equatorStart= (int)(map.getHeight()*0.4);
+        int equatorEnd=(int)(map.getHeight()*0.6);
+        for(int i=0;i<map.getHeight();i++){
+            for(int j=0;j< map.getWidth();j++){
+                if(i>=equatorStart && i <= equatorEnd){
+                    this.favouredGrassPositions.put(new Vector2d(j,i),new Grass(new Vector2d(j,i),0));
+                }
+                else {
+                    this.disfavouredGrassPositions.put(new Vector2d(j,i),new Grass(new Vector2d(j,i),0));
+
                 }
 
             }
-
         }
-        Vector2d[] positions= newPositions.toArray(new Vector2d[0]);
-        return positions;
-
+//        for (Vector2d key : favouredGrassPositions.keySet()) {
+//            System.out.println("f"+key+" "+favouredGrassPositions.get(key).getEnergy());
+//
+//        }
+//        for (Vector2d key : disfavouredGrassPositions.keySet()) {
+//            System.out.println("d"+key+" "+disfavouredGrassPositions.get(key).getEnergy());
+//
+//        }
     }
 
     @Override
-    public Vector2d[] disfavouredPositions(AbstractWorldMap map) {
-        ArrayList<Vector2d> newPositions=new ArrayList<>();
-        int startHeight=0;
-        int endHeight= (int) (map.getHeight()*(disfavRatio/2));
-        for(int i=startHeight;i<endHeight;i++){
-            for(int j=0;j<map.getWidth();j++){
-                Vector2d newPosition= new Vector2d(j,i);
-                if(map.getGrassPositions().get(newPosition) == null){
-                    newPositions.add(newPosition);
+    public void eatGrass(Vector2d position) {
+        boolean flag=false;
+        for(Vector2d grassPosition: favouredGrassPositions.keySet()){
+            if(grassPosition==position){
+                favouredGrassPositions.put(position,new Grass(position,0));
+                flag=true;
+                break;
+            }
+        }
+        if(!flag){
+            for(Vector2d grassPosition: disfavouredGrassPositions.keySet()){
+                if(grassPosition==position){
+                    disfavouredGrassPositions.put(position,new Grass(position,0));
+                    break;
                 }
 
+        }
+
+    }}
+
+    @Override
+    protected Vector2d spawnFavoured() {//co jesli nullem
+//        System.out.println("sizefffffffffffffffffffffffffffffff"+favouredGrassPositions.size());
+//        for (Vector2d key : favouredGrassPositions.keySet()) {
+//            System.out.println("f"+key+" "+favouredGrassPositions.get(key).getEnergy());
+//
+//        }
+
+        Vector2d grassPosition=null;
+        for(Vector2d position: favouredGrassPositions.keySet()){
+            if(favouredGrassPositions.get(position).getEnergy() ==0){
+                grassPosition=position;
+                break;
+
             }
+        }
+        if(grassPosition!=null){
+            favouredGrassPositions.put(grassPosition,new Grass(grassPosition,this.map.getGrassEnergy()));
 
         }
-        Vector2d[] positions= newPositions.toArray(new Vector2d[0]);
-        return positions;
+
+//        System.out.println("fp"+grassPosition);
+        return grassPosition;
     }
+
+    @Override
+    protected Vector2d spawnDisfavoured() {
+//        System.out.println("sizeddddddddddddddddddddddddddddddddd"+disfavouredGrassPositions.size());
+//        for (Vector2d key : disfavouredGrassPositions.keySet()) {
+//            System.out.println("d"+key+" "+disfavouredGrassPositions.get(key).getEnergy());
+//
+//        }
+//        System.out.println("here4");
+        Vector2d grassPosition=null;
+        for(Vector2d position: disfavouredGrassPositions.keySet()){
+            if(disfavouredGrassPositions.get(position).getEnergy() == 0){
+                grassPosition=position;
+//                disfavouredGrassPositions.put(position,new Grass(position,this.map.getGrassEnergy()));
+                break;
+            }
+        }
+        if(grassPosition!=null){
+            disfavouredGrassPositions.put(grassPosition,new Grass(grassPosition,this.map.getGrassEnergy()));
+
+        }
+//        System.out.println("dp"+grassPosition);
+        return grassPosition;
+
+    }
+
+
+
 }

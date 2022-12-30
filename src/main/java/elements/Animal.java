@@ -10,12 +10,17 @@ import maps.AbstractWorldMap;
 
 import java.util.ArrayList;
 
+import static enums.MapDirection.setRandomOrientation;
+import static java.lang.Math.abs;
+
 
 public class Animal extends AbstractMapElement {
 
     private final AbstractWorldMap map;
 
-    private final double reproductionCost=0.2;
+    private final double reproductionCost;
+
+    private int fullEnergy;
     private MapDirection direction;
     private int energy;
     private final int startingEnergy;
@@ -25,10 +30,15 @@ public class Animal extends AbstractMapElement {
     private int activatedGene;
     private int age;
     private int numberOfChildren;
-    private int numberOfGenes=15;//pobiera w simulation
+    private int bornDate;
+    private int deathDate;
+    private int numberOfGenes;//pobiera w simulation
     private  ArrayList<IPositionChangeObserver> positionChangeObservers;
 
-    public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,Genome genome,IMutation mutation,IGeneChoice geneChoice){//ewentualnie 2 konstruktory
+    public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,
+                  Genome genome,IMutation mutation,IGeneChoice geneChoice,
+                  int numberOfGenes,double reproductionCost,int fullEnergy,int bornDay){//ewentualnie 2 konstruktory
+
         this.position = initialPosition;//random position
         this.map = map;
         this.mutation=mutation;
@@ -40,8 +50,13 @@ public class Animal extends AbstractMapElement {
         this.geneChoice=geneChoice;
 //        this.genome=new Genome(numberOfGenes);
         this.genome=genome;
-        this.direction=direction.setRandomOrientation();
+        this.direction=setRandomOrientation();
         this.positionChangeObservers = new ArrayList<>();
+        this.numberOfGenes=numberOfGenes;
+        this.reproductionCost=reproductionCost;
+        this.fullEnergy=fullEnergy;
+        this.bornDate=bornDay;
+        this.deathDate=0;
 
 
     }
@@ -57,19 +72,28 @@ public class Animal extends AbstractMapElement {
         return this.energy==0;
     }
 
+    public boolean isFull(){
+        return this.energy==fullEnergy;
+    }
+
     public void rotate(){
-        int numberOfRotations=genome.getGenes()[activatedGene];
+        int numberOfRotations=genome.getGenes()[this.activatedGene];
         for (int i = 0; i < numberOfRotations; i++) {
-                this.direction.next();
+                this.direction=this.direction.next();
+//            System.out.println(this.direction);
+
         }
         this.activatedGene=this.geneChoice.choose(genome.getGenes(),activatedGene);
+//        System.out.println(this.activatedGene);
     }
     public void move(){
         Vector2d newPosition= this.position.add(this.direction.toUnitVector());
+        if (!map.canMoveTo(newPosition)) {
+            newPosition = this.map.findNewPosition(this, newPosition);
+        }
+        this.positionChanged(this.position,newPosition);
+        this.position = newPosition;
 
-//        if(map.canMoveTo(newPosition))
-//            this.positionChanged(this.position,newPosition);
-//        this.position = newPosition;
 
     }
 
@@ -78,7 +102,7 @@ public class Animal extends AbstractMapElement {
 
 
     }
-    protected void removeObserver(IPositionChangeObserver observer){
+    public void removeObserver(IPositionChangeObserver observer){
         this.positionChangeObservers.remove(observer);
 
     }
@@ -88,7 +112,7 @@ public class Animal extends AbstractMapElement {
         }
     }
 
-    public void reproduce(Animal otherAnimal){
+    public Animal reproduce(Animal otherAnimal){
         int childEnergy=(int)(this.energy*reproductionCost + otherAnimal.energy*reproductionCost);
         this.energy=(int)((1-reproductionCost)*this.energy);
         otherAnimal.energy=(int)((1-reproductionCost)*otherAnimal.energy);
@@ -105,29 +129,47 @@ public class Animal extends AbstractMapElement {
 
         }
         Genome childGenome = new Genome(strongerParent.genome,weakerParent.genome,strongerParent.energy, weakerParent.energy, numberOfGenes,this.mutation);
-        Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome,this.mutation,this.geneChoice);
+        Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome,this.mutation,this.geneChoice,numberOfGenes,reproductionCost,fullEnergy,this.map.getDay());
         this.numberOfChildren++;
         otherAnimal.numberOfChildren++;
-        this.map.place(childAnimal);
-//        return childAnimal;
+//        this.map.place(childAnimal);
+        System.out.println("reproduction");
+        return childAnimal;
 
 
     }
+
+    public void reduceEnergy(int energy) {
+        this.energy -= energy;
+    }
+
+    public void setDeathDate(int day) {
+        this.deathDate = day - this.bornDate;
+    }
+
+
 
 
 
 
     @Override
     public String getResource() {
-        return null;
+        return "src/main/resources/dirt.png";
     }
+
+
 
     public int getEnergy(){
         return this.energy;
     }
+
     public int getAge(){
         return this.age;
     }
+    public void addAge(int age){
+        this.age+=age;
+    }
+
 
     public int getNumberOfChildren(){
         return this.numberOfChildren;
@@ -139,5 +181,10 @@ public class Animal extends AbstractMapElement {
 
     public void setDirection(MapDirection direction) {
         this.direction = direction;
+    }
+
+    public String toString() {
+//        return direction.toString();
+        return "A";
     }
 }
