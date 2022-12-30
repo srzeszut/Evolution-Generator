@@ -154,7 +154,18 @@ public class Animal extends AbstractMapElement {
 
     @Override
     public String getResource() {
-        return "src/main/resources/dirt.png";
+        if(this.energy/fullEnergy>0.6){
+            return "src/main/resources/animalstrong.png";
+
+        } else if (this.energy/fullEnergy>0.3) {
+            return "src/main/resources/animalmid.png";
+
+        }
+        else {
+            return "src/main/resources/animalweak.png";
+
+        }
+
     }
 
 

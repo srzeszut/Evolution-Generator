@@ -2,7 +2,9 @@ package gui;
 
 import elements.Animal;
 import elements.Grass;
+import elements.Steppe;
 import elements.Vector2d;
+import interfaces.IMapElement;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -12,8 +14,11 @@ import javafx.scene.layout.RowConstraints;
 import maps.AbstractWorldMap;
 import simulation.SimulationEngine;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.System.out;
 
 public class SimulationWindow {
     private AbstractWorldMap map;
@@ -68,7 +73,7 @@ public class SimulationWindow {
 //
 //                    }
 //            }
-//
+
 //    }
     }
 
@@ -78,17 +83,17 @@ public class SimulationWindow {
         for (Vector2d position : grassesAndAnimals) {
             GuiElementBox element;
             Label guiElement = new Label(map.objectAt(position).toString());
-//            try{
-//                element=new GuiElementBox((IMapElement) map.objectAt(position));
-//                grid.add(element.getBox(),position.getX(), position.getY(),1,1);
-//                GridPane.setHalignment(element.getBox(), HPos.CENTER);
-//            }
-//            catch (FileNotFoundException err){
-//                out.println(err.getMessage());
-////                        Platform.exit();
-//
-//            }
-            grid.add(guiElement, position.getX(), position.getY(), 1, 1);
+            try{
+                element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight);
+                grid.add(element.getBox(),position.getX(), position.getY(),1,1);
+                GridPane.setHalignment(element.getBox(), HPos.CENTER);
+            }
+            catch (FileNotFoundException err){
+                out.println(err.getMessage());
+//                        Platform.exit();
+
+            }
+//            grid.add(guiElement, position.getX(), position.getY(), 1, 1);
             GridPane.setHalignment(guiElement, HPos.CENTER);
         }
     }

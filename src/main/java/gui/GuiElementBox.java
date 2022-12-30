@@ -12,11 +12,11 @@ import java.io.FileNotFoundException;
 public class GuiElementBox {
 
     private VBox vbox ;
-    public GuiElementBox(IMapElement element) throws FileNotFoundException {
+    public GuiElementBox(IMapElement element,int width,int heigth) throws FileNotFoundException {
         Image image = new Image(new FileInputStream(element.getResource()));
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(20);
-        imageView.setFitHeight(20);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(heigth);
         vbox=new VBox(imageView);
         vbox.setAlignment(Pos.CENTER);
 

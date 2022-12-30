@@ -19,7 +19,7 @@ public class Grass extends AbstractMapElement{
 
     @Override
     public String getResource() {
-        return "src/main/resources/grass.jpg";
+        return "src/main/resources/grass.png";
     }
 
 }

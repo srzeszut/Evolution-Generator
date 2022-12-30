@@ -150,7 +150,7 @@ public class App extends Application {
             newWindow.setEngine(newSimulation);
 
                 Stage simulationWindow=new Stage();
-                simulationWindow.setScene(simulationScene(newWindow.getGrid()));
+                simulationWindow.setScene(simulationScene(newWindow.getGrid()));//zmienic na scene z statystykami
                 simulationWindow.show();
                 simulationWindow.setX(bounds.getMinX());
                 simulationWindow.setY(bounds.getMinY());
@@ -181,7 +181,6 @@ public class App extends Application {
     private void startSimulation(SimulationWindow window){
         Thread engineThread = new Thread(window.getEngine());
         engineThread.start();
-
 
     }
     private void startMenu(){
@@ -277,6 +276,7 @@ public class App extends Application {
 
     }
     private SimulationEngine setSimulationFromOptions(SimulationWindow window){
+
          int mapHeight=Integer.parseInt(this.heightTextField.getText());
          int mapWidth=Integer.parseInt(this.widthTextField.getText());
          int startingGrass=Integer.parseInt(this.grassAtTheBeginningTextField.getText());
@@ -332,10 +332,6 @@ public class App extends Application {
         return new SimulationEngine(window,map,numberOfAnimals,startingEnergy,0.2,0,3,mutation,genomeLength,choice,100,delay);
 
 
-
-
-
-
     }
 
     private HBox createHeadLineText(String text, int size) {
@@ -360,10 +356,4 @@ public class App extends Application {
     }
 
 
-
-
-    @Override
-    public void stop() throws Exception {
-        super.stop();
-    }
 }
