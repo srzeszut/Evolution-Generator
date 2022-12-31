@@ -1,29 +1,27 @@
 package gui;
 
-import elements.Animal;
-import elements.Grass;
-import elements.Steppe;
-import elements.Vector2d;
+
 import fields.AbstractField;
 import fields.ForestedEquator;
 import geneBehaviors.Madness;
 import geneBehaviors.predestination;
-import interfaces.IFieldOption;
+
 import interfaces.IGeneChoice;
-import interfaces.IMapElement;
+
 import interfaces.IMutation;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
+import javafx.event.EventHandler;
+
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ScrollPane;
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -31,18 +29,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import maps.AbstractWorldMap;
 import maps.Earth;
+import maps.PortalMap;
 import mutations.LightMutation;
 import mutations.RandomMutation;
 import simulation.SimulationEngine;
-import java.awt.*;
 import javafx.scene.control.Button;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import static java.lang.System.out;
 
@@ -150,6 +147,7 @@ public class App extends Application {
             newWindow.setEngine(newSimulation);
 
                 Stage simulationWindow=new Stage();
+
                 simulationWindow.setScene(simulationScene(newWindow.getGrid()));//zmienic na scene z statystykami
                 simulationWindow.show();
                 simulationWindow.setX(bounds.getMinX());
@@ -159,7 +157,16 @@ public class App extends Application {
             Platform.runLater(()->{
                 newWindow.renderGrid();
             });
-            startSimulation(newWindow);
+            Thread engineThread = new Thread(newWindow.getEngine());
+            engineThread.start();
+
+            simulationWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    System.out.println("Stage is closing");
+                    newSimulation.stop();
+//                    engineThread.interrupt();
+                }
+            });
             });
 
 
@@ -176,11 +183,6 @@ public class App extends Application {
         HBox container =new HBox(10,statistics, grid);
         Scene simulationScene = new Scene(container, 900, 768);
         return simulationScene;
-
-    }
-    private void startSimulation(SimulationWindow window){
-        Thread engineThread = new Thread(window.getEngine());
-        engineThread.start();
 
     }
     private void startMenu(){
@@ -244,7 +246,7 @@ public class App extends Application {
         this.grassAtTheBeginningTextField = new TextField("10");
         HBox grassAtTheBeginningBox = createHBox(grassAtTheBeginningText, this.grassAtTheBeginningTextField);
         Text grassEverydayText = createText("Grass spawned everyday:");
-        this.grassEverydayField = new TextField("10");
+        this.grassEverydayField = new TextField("5");
         HBox grassEverydayBox = createHBox(grassEverydayText, this.grassEverydayField);
         Text spawnOptionText = createText("Spawning grass options:");
         this.spawningList=new ListView<>();
@@ -325,8 +327,7 @@ public class App extends Application {
                 map=new Earth(mapWidth,mapHeight,startingGrass,grassEnergy,growingGrass,field);
             }
             else{
-                System.out.println("portalMap");
-                map=new Earth(mapWidth,mapHeight,startingGrass,grassEnergy,growingGrass,field);
+                map=new PortalMap(mapWidth,mapHeight,startingGrass,grassEnergy,growingGrass,field);
             }
         }
         return new SimulationEngine(window,map,numberOfAnimals,startingEnergy,0.2,0,3,mutation,genomeLength,choice,100,delay);

@@ -5,5 +5,5 @@ import maps.AbstractWorldMap;
 
 public interface IFieldOption {
 
-    void spawnGrass(int numberOfGrass);
+    Vector2d spawnGrass(int numberOfGrass);
 }

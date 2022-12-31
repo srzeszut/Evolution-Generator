@@ -3,15 +3,13 @@ package simulation;
 import elements.Animal;
 import elements.Genome;
 import elements.Vector2d;
-import gui.App;
 import gui.SimulationWindow;
-import interfaces.IFieldOption;
 import interfaces.IGeneChoice;
 import interfaces.IMutation;
 import javafx.application.Platform;
-import javafx.scene.layout.GridPane;
+
 import maps.AbstractWorldMap;
-import maps.Earth;
+
 
 import java.util.*;
 
@@ -34,7 +32,7 @@ public class SimulationEngine implements Runnable {
         this.app = app;
         this.delay=delay;
         for (int i = 0; i < numberOfAnimals; i++) {
-            Vector2d newPosition = new Vector2d(random.nextInt(this.map.getWidth()), random.nextInt(this.map.getHeight()));
+            Vector2d newPosition = new Vector2d(random.nextInt(this.map.getWidth()-1), random.nextInt(this.map.getHeight()-1));
             Genome genome = new Genome(genomeLength, mutation);
             Animal animalToSpawn = new Animal(map, newPosition, startingEnergy, genome, mutation, geneChoice, genomeLength, neededEnergy, fullEnergy, map.getDay());
             this.map.place(animalToSpawn);
@@ -42,9 +40,9 @@ public class SimulationEngine implements Runnable {
 
 
         }
-        for (Vector2d key : map.getGrassPositions().keySet()) {
+//        for (Vector2d key : map.getGrassPositions()) {
 //            System.out.println(key);
-        }
+//        }
 
     }
     public void stop(){
@@ -68,6 +66,7 @@ public class SimulationEngine implements Runnable {
          {
 //             System.out.println(this.map.toString());
              System.out.println("number of animals" + this.map.getAnimals().size());
+//             this.map.printAnimals();
             this.map.removeDead();
             this.map.moveAnimals();
             this.map.eatGrass();
@@ -84,7 +83,8 @@ public class SimulationEngine implements Runnable {
                 System.out.println(err.getMessage());
             }
         }
-        System.out.println(this.map.getDay());
+
+        System.out.println("koniec symulacji");
 
         }
     }

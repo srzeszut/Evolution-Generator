@@ -19,7 +19,6 @@ public class Animal extends AbstractMapElement {
     private final AbstractWorldMap map;
 
     private final double reproductionCost;
-
     private int fullEnergy;
     private MapDirection direction;
     private int energy;
@@ -38,7 +37,6 @@ public class Animal extends AbstractMapElement {
     public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,
                   Genome genome,IMutation mutation,IGeneChoice geneChoice,
                   int numberOfGenes,double reproductionCost,int fullEnergy,int bornDay){//ewentualnie 2 konstruktory
-
         this.position = initialPosition;//random position
         this.map = map;
         this.mutation=mutation;
@@ -66,10 +64,11 @@ public class Animal extends AbstractMapElement {
 //    }
     public void eat(Grass grass){
         this.energy+=grass.getEnergy();
+//        System.out.println(grass.getEnergy());
 
     }
     public boolean isDead(){
-        return this.energy==0;
+        return this.energy<=0;
     }
 
     public boolean isFull(){
@@ -91,8 +90,11 @@ public class Animal extends AbstractMapElement {
         if (!map.canMoveTo(newPosition)) {
             newPosition = this.map.findNewPosition(this, newPosition);
         }
+
         this.positionChanged(this.position,newPosition);
         this.position = newPosition;
+
+
 
 
     }
@@ -157,7 +159,7 @@ public class Animal extends AbstractMapElement {
         if(this.energy/fullEnergy>0.6){
             return "src/main/resources/animalstrong.png";
 
-        } else if (this.energy/fullEnergy>0.3) {
+        } else if (this.energy/fullEnergy<0.6 && this.energy/fullEnergy>0.3) {
             return "src/main/resources/animalmid.png";
 
         }
@@ -180,6 +182,7 @@ public class Animal extends AbstractMapElement {
     public void addAge(int age){
         this.age+=age;
     }
+
 
 
     public int getNumberOfChildren(){

@@ -7,6 +7,7 @@ import fields.AbstractField;
 import interfaces.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
@@ -35,37 +36,42 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     private ArrayList<Animal> animalsList= new ArrayList<>();//zmienic na liste
-    protected HashMap<Vector2d, SortedSet<Animal>> animals = new HashMap<>();
-
+    protected Map<Vector2d, ArrayList<Animal>> animals = new ConcurrentHashMap<>();
 
 
 
 
     private void addToMap(Animal animal,Vector2d position){
-        SortedSet<Animal> animalsOnPositions = this.animals.get(position);
+        ArrayList<Animal> animalsOnPositions = this.animals.get(position);
 
         if (animalsOnPositions == null) {
-            SortedSet<Animal> newList= new TreeSet<>(Comparator.comparingInt(Animal::getEnergy).thenComparing(Animal::getAge)
-                    .thenComparing(Animal::getNumberOfChildren).thenComparing(Animal::getActivatedGene));
+            ArrayList<Animal> newList= new ArrayList<Animal>();
             newList.add(animal);
+
             this.animals.put(position, newList);
         } else {
             animalsOnPositions.add(animal);
+            Collections.sort(animalsOnPositions,Comparator.comparingInt(Animal::getEnergy)
+                    .thenComparing(Animal::getAge).thenComparing(Animal::getNumberOfChildren).thenComparing(Animal::hashCode));
+
         }
 
 
     }
     private void removeFromMap(Animal animal,Vector2d position){
-        SortedSet<Animal> animalsOnPositions = this.animals.get(position);
+        ArrayList<Animal> animalsOnPositions = this.animals.get(position);
+
         if (animalsOnPositions != null) {
+//            System.out.println("Usuwam");
+
              animalsOnPositions.remove(animal);
 
             if (animalsOnPositions.size() == 0)
                 this.animals.remove(position);
 
 
-        } //else
-//            throw new IllegalArgumentException(position + " is invalid.");
+        } else
+           throw new IllegalArgumentException(position + " is invalid.");
     }
 
 
@@ -84,22 +90,28 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     protected void spawnGrass(int numberOfGrass){//opcja jak juz sie nie mieszcza
 //        System.out.println("here");
-        this.field.spawnGrass(numberOfGrass);
+        for(int i=0;i<numberOfGrass;i++){
+            Vector2d newPosition=this.field.spawnGrass(numberOfGrass);
+            if(newPosition!=null){
+                Grass clumpOfGrass = new Grass(newPosition,this.grassEnergy);
 
-    }
-    public void placeGrass(Vector2d position) {
-//        System.out.println("herep");
-        Grass clumpOfGrass = new Grass(position,this.grassEnergy);
-        grassPositions.put(position,clumpOfGrass);
+                grassPositions.put(newPosition,clumpOfGrass);
+            }
+
+
+        }
+
+
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        SortedSet<Animal> positions=animals.get(position);
+        ArrayList<Animal> positions=animals.get(position);
         if (positions == null || positions.size() == 0) {
+
             return this.grassPositions.get(position);
         } else
-            return positions.last();
+            return positions.get(0);
     }
 
     @Override
@@ -139,21 +151,14 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     @Override
     public void reproduction() {
-
-        for(SortedSet<Animal> animals: this.animals.values()){
+        for(ArrayList<Animal> animals: this.animals.values()){
             if (animals != null && animals.size() >= 2){
-                Animal parent1=animals.last();
-                animals.remove(parent1);
-                Animal parent2=animals.last();
+                Animal parent1=animals.get(animals.size()-1);
+                Animal parent2=animals.get(animals.size()-2);
                 if(parent2.isFull() && parent1.isFull()){
                     Animal child= parent1.reproduce(parent2);
-                    animals.add(parent1);//iterator
+                    System.out.println("reproduciton");
                     this.place(child);
-
-                }
-                else {
-                    animals.add(parent1);
-                    animals.add(parent2);
 
                 }
             }
@@ -162,19 +167,17 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     @Override
     public void eatGrass() {
-        List<Grass> grassesToRemove = new LinkedList<>();
-        for (Grass clump : this.grassPositions.values()) {
-            SortedSet<Animal> animalsOnPositions = this.animals.get(clump.getPosition());
+        List<Vector2d> grassesToRemove = new ArrayList<>();
+        for (Vector2d clumpPosition : this.grassPositions.keySet()) {
+            ArrayList<Animal> animalsOnPositions = this.animals.get(clumpPosition);
             if (animalsOnPositions != null && animalsOnPositions.size() > 0) {
-                animalsOnPositions.last().eat(clump);
-                grassesToRemove.add(clump);
+                animalsOnPositions.get(animalsOnPositions.size()-1).eat(grassPositions.get(clumpPosition));
+                grassesToRemove.add(clumpPosition);
             }
         }
-        for (Grass clump : grassesToRemove) {
-            this.grassPositions.remove(clump.getPosition());
-            System.out.println(clump.getPosition());
-            this.field.eatGrass(clump.getPosition());
-//            this.freeGrassPositions.add(tuft.getPosition());
+        for (Vector2d clumpPosition : grassesToRemove) {
+            this.grassPositions.remove(clumpPosition);
+//            System.out.println(clump.getPosition());
         }
 
 
@@ -209,11 +212,44 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     public ArrayList<Animal> getAnimals() {
-        return animalsList;
+
+        return (ArrayList)animalsList.clone();
     }
 
-    public Map<Vector2d, Grass> getGrassPositions() {
-        return Collections.unmodifiableMap(grassPositions);
+    public ArrayList<Vector2d> getGrassPositions() {
+        ArrayList<Vector2d> positions=new ArrayList<>();
+        positions.addAll(grassPositions.keySet());
+
+        return (ArrayList)positions.clone();
+
+
+    }
+    public ArrayList<Grass> getGrass() {
+        ArrayList<Grass> positions=new ArrayList<>();
+        for(Grass grass:grassPositions.values()){
+            positions.add(grass);
+
+        }
+//        positions.addAll(grassPositions.values());
+        return (ArrayList)positions.clone();
+
+
+    }
+    public void printAnimals(){
+        int i=0;
+        for (ArrayList<Animal> animal: animals.values()){
+            for(Animal a:animal){
+                i++;
+                System.out.println(i+" "+"aaaaaaaaaaaa"+a.getPosition());
+
+            }
+        }
+        i=0;
+        for(Animal animal:animalsList){
+            i++;
+            System.out.println(i+" "+""+animal.getPosition()+" ");
+
+        }
     }
 
     public String toString(){

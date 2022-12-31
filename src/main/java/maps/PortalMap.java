@@ -4,7 +4,10 @@ import elements.Animal;
 import elements.Vector2d;
 import fields.AbstractField;
 
+import java.util.Random;
+
 public class PortalMap extends AbstractWorldMap{
+    Random random= new Random();
 
     public PortalMap(int width, int height, int startingGrass, int grassEnergy,
                  int numberOfGrowingGrass, AbstractField field){
@@ -16,11 +19,13 @@ public class PortalMap extends AbstractWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return false;
+        return position.follows(new Vector2d(0,0)) && position.precedes(new Vector2d(width-1,height-1));
     }
 
     @Override
     public Vector2d findNewPosition(Animal animal, Vector2d wantedPosition) {
-        return null;
+        Vector2d newPosition= new Vector2d(random.nextInt(width-1),random.nextInt(height-1));
+        animal.reduceEnergy(20);//taka jak przy reproduction
+        return newPosition;
     }
 }

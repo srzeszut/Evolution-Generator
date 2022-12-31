@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="cokolwiek">
+    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="cos tam smiga powoli">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/elements/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Grass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fields/AbstractField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/AbstractField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/GuiElementBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GuiElementBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/maps/PortalMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/PortalMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +123,15 @@
       <workItem from="1672309612816" duration="8482000" />
       <workItem from="1672354039131" duration="6503000" />
       <workItem from="1672397528555" duration="13675000" />
+      <workItem from="1672420280903" duration="821000" />
+      <workItem from="1672421109685" duration="158000" />
+      <workItem from="1672424191081" duration="595000" />
+      <workItem from="1672424863498" duration="2777000" />
+      <workItem from="1672427816896" duration="13447000" />
+      <workItem from="1672442227287" duration="550000" />
+      <workItem from="1672442933351" duration="41000" />
+      <workItem from="1672479291464" duration="2388000" />
+      <workItem from="1672483713536" duration="1006000" />
     </task>
     <task id="LOCAL-00001" summary="project start">
       <created>1671579392497</created>
@@ -147,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672419130571</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="cos tam smiga powoli">
+      <created>1672420312807</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1672420312807</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,6 +190,17 @@
     <MESSAGE value="added mutations and genechoices" />
     <MESSAGE value="added earth and fields" />
     <MESSAGE value="cokolwiek" />
-    <option name="LAST_COMMIT_MESSAGE" value="cokolwiek" />
+    <MESSAGE value="cos tam smiga powoli" />
+    <option name="LAST_COMMIT_MESSAGE" value="cos tam smiga powoli" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.ConcurrentModificationException" package="java.util" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
