@@ -93,7 +93,12 @@ public class Genome {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(this.genes);
+        int hash=0;
+        for(int gene:this.genes){
+            hash+=gene;
+            hash*=10;
+        }
+        return hash;
     }
 
     @Override

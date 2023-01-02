@@ -150,6 +150,12 @@ public class SimulationWindow {
         Label deathCounter=new Label(Double.toString(animal.getDeathDate()));
         HBox deathBox=createStatsElement(death,deathCounter);
 
+//        Button stopTracking=new Button("Stop tracking");
+//
+//        stopTracking.setOnAction((click)->{
+//            this.trackedAnimal=null;
+//        });
+
         VBox newStastisticsBox= new VBox(10,new Label("ANIMAL STATS"),genomeBox,activatedBox,energyBox,plantsBox,childrenBox,ageBox,deathBox);
         animalBox.getChildren().add(newStastisticsBox);
 
@@ -197,7 +203,6 @@ public class SimulationWindow {
                 if(map.objectAt(position)!=null && map.objectAt(position) instanceof Animal){
                     if(showDominant && stopped){
                         if( ((Animal) map.objectAt(position)).getGenome().equals(map.getDominantGenome())){
-                            System.out.println("niebieski");
                             element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight,dominantImage);
                         }
                         else {

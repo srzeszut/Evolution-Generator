@@ -3,20 +3,34 @@ package fields;
 import elements.Grass;
 import elements.Vector2d;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Trupy extends AbstractField {
+public class ToxicBodies extends AbstractField {
+
     @Override
     public void generatePositions() {
+        ArrayList<Vector2d> positions=new ArrayList<>();
+        HashMap<Vector2d,Integer> deadPositions= map.getDeadPositions();
+        deadPositions.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach((element)->{
+//                    System.out.println(element.getValue());
+                    positions.add(element.getKey());
+                });
 
-        for(int i=0;i<map.getHeight();i++){
-            for(int j=0;j< map.getWidth();j++){
-
-                    this.favouredGrassPositions.add(new Vector2d(j,i));
-                }
-
+        for(int i=0;i< positions.size();i++){
+            if(i< (int)(positions.size()*0.2)){
+                this.favouredGrassPositions.add(positions.get(i));
+            }
+            else {
+                this.disfavouredGrassPositions.add(positions.get(i));
 
             }
+        }
 
         Collections.shuffle(favouredGrassPositions);
         Collections.shuffle(disfavouredGrassPositions);
@@ -25,7 +39,6 @@ public class Trupy extends AbstractField {
 
     @Override
     protected Vector2d spawnFavoured() {
-        generatePositions();
         Vector2d grassPosition = null;
         for (Vector2d position : favouredGrassPositions) {
             if (!(map.objectAt(position) instanceof Grass)) {
@@ -40,7 +53,6 @@ public class Trupy extends AbstractField {
 
     @Override
     protected Vector2d spawnDisfavoured() {
-        generatePositions();
         Vector2d grassPosition = null;
         for (Vector2d position : disfavouredGrassPositions) {
             if (!(map.objectAt(position) instanceof Grass)) {

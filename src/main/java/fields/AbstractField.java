@@ -16,7 +16,6 @@ public abstract class AbstractField implements IFieldOption {//protected
 
     protected ArrayList<Vector2d> favouredGrassPositions=new ArrayList<>();
     protected ArrayList<Vector2d> disfavouredGrassPositions=new ArrayList<>();
-    //mapa z trawami chcianymi i i niechcianymi
     public abstract void generatePositions();
 
     public void setMap(AbstractWorldMap map) {

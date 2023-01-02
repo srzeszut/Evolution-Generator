@@ -3,6 +3,7 @@ package gui;
 
 import fields.AbstractField;
 import fields.ForestedEquator;
+import fields.ToxicBodies;
 import geneBehaviors.Madness;
 import geneBehaviors.predestination;
 
@@ -238,7 +239,7 @@ public class App extends Application {
         this.spawningList=new ListView<>();
         this.spawningList.setPrefHeight(2 * ROW_HEIGHT);
         spawningList.getItems().add("Zalesione rowniki");
-        spawningList.getItems().add("Toksyczne trupy (NIEDOSTEPNE)");
+        spawningList.getItems().add("Toksyczne trupy");
         HBox spawnOptionsBox = createHBox(spawnOptionText, this.spawningList);
 
         // Other options
@@ -288,8 +289,8 @@ public class App extends Application {
                 field=new ForestedEquator();
             }
             else{
-                System.out.println("toksyczne");
-//                field=new ForestedEquator();
+//                System.out.println("toksyczne");
+                field=new ToxicBodies();
             }
         }
 

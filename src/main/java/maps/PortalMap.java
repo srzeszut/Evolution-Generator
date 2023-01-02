@@ -25,7 +25,7 @@ public class PortalMap extends AbstractWorldMap{
     @Override
     public Vector2d findNewPosition(Animal animal, Vector2d wantedPosition) {
         Vector2d newPosition= new Vector2d(random.nextInt(width-1),random.nextInt(height-1));
-        animal.reduceEnergy(20);//taka jak przy reproduction
+        animal.reduceEnergy((int)(animal.getEnergy()*(1-animal.getReproductionCost())));
         return newPosition;
     }
 }

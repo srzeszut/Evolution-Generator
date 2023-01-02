@@ -5,6 +5,7 @@ import elements.Genome;
 import elements.Grass;
 import elements.Vector2d;
 import fields.AbstractField;
+import fields.ToxicBodies;
 import interfaces.*;
 
 import java.util.*;
@@ -20,6 +21,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected int startedGrass;
     protected int dailyGrass;
     private ArrayList<Animal> deadAnimals=new ArrayList<>();
+
+    private HashMap<Vector2d, Integer> deadPositions= new HashMap<Vector2d, Integer>();
     protected HashMap<Vector2d, Grass> grassPositions= new HashMap<Vector2d, Grass>();
 
 
@@ -34,6 +37,11 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         this.field=field;
         this.field.setMap(this);
         this.field.generatePositions();
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                deadPositions.put(new Vector2d(i,j),0);
+            }
+        }
 
     }
 
@@ -54,7 +62,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         } else {
             animalsOnPositions.add(animal);
             Collections.sort(animalsOnPositions,Comparator.comparingInt(Animal::getEnergy)
-                    .thenComparing(Animal::getAge).thenComparing(Animal::getNumberOfChildren).thenComparing(Animal::hashCode));
+                    .thenComparing(Animal::getAge).thenComparing(Animal::getNumberOfChildren).thenComparing(Animal::getActivatedGene));
 
         }
 
@@ -92,6 +100,9 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     protected void spawnGrass(int numberOfGrass){//opcja jak juz sie nie mieszcza
 //        System.out.println("here");
+        if(this.field instanceof ToxicBodies){
+            this.field.generatePositions();
+        }
         for(int i=0;i<numberOfGrass;i++){
             Vector2d newPosition=this.field.spawnGrass();
             if(newPosition!=null){
@@ -122,6 +133,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         for(Animal animal:animalsList){
             if(animal.isDead()){
                 deadAnimals.add(animal);
+                deadPositions.put(animal.getPosition(),deadPositions.get(animal.getPosition())+1);
                 animal.setDeathDate(this.day);
                 toRemove.add(animal);
                 removeFromMap(animal, animal.getPosition());
@@ -215,6 +227,10 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return this.grassEnergy;
     }
 
+    public HashMap<Vector2d, Integer> getDeadPositions() {
+        return deadPositions;
+    }
+
     public ArrayList<Animal> getAnimals() {
 
         return (ArrayList)animalsList.clone();
@@ -299,10 +315,10 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
             }
         }
-        System.out.println(max);
-        for(Genome g :genotypeCounter.keySet()){
-            System.out.println(g+" "+genotypeCounter.get(g));
-        }
+//        System.out.println(max);
+//        for(Genome g :genotypeCounter.keySet()){
+//            System.out.println(g+" "+genotypeCounter.get(g));
+//        }
 
         return DominantGenotype;
 

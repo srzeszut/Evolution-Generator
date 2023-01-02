@@ -205,6 +205,10 @@ public class Animal extends AbstractMapElement {
         return  this.activatedGene;
     }
 
+    public double getReproductionCost() {
+        return reproductionCost;
+    }
+
     public void setDirection(MapDirection direction) {
         this.direction = direction;
     }
