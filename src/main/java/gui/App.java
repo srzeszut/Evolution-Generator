@@ -130,7 +130,7 @@ public class App extends Application {
             this.back=new Button("Back");
             back.setOnAction((click)->{
                 start(primaryStage);
-                engine.stop();
+                engine.end();
 
             });
 
@@ -144,11 +144,12 @@ public class App extends Application {
             SimulationEngine newSimulation=setSimulationFromOptions(newWindow);
             AbstractWorldMap newMap=newSimulation.getMap();
             newWindow.setMap(newMap);
+            newWindow.createStats();
             newWindow.setEngine(newSimulation);
 
                 Stage simulationWindow=new Stage();
 
-                simulationWindow.setScene(simulationScene(newWindow.getGrid()));//zmienic na scene z statystykami
+                simulationWindow.setScene(newWindow.getScene());//zmienic na scene z statystykami
                 simulationWindow.show();
                 simulationWindow.setX(bounds.getMinX());
                 simulationWindow.setY(bounds.getMinY());
@@ -158,12 +159,13 @@ public class App extends Application {
                 newWindow.renderGrid();
             });
             Thread engineThread = new Thread(newWindow.getEngine());
+            newWindow.setEngineThread(engineThread);
             engineThread.start();
 
             simulationWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
                     System.out.println("Stage is closing");
-                    newSimulation.stop();
+                    newSimulation.end();
 //                    engineThread.interrupt();
                 }
             });
@@ -175,14 +177,6 @@ public class App extends Application {
     } catch (IllegalArgumentException exception) {
         System.out.println(exception.getMessage());
     }
-
-    }
-    private Scene simulationScene(GridPane grid){
-        VBox statistics= new VBox();
-        statistics.setPrefWidth(400);
-        HBox container =new HBox(10,statistics, grid);
-        Scene simulationScene = new Scene(container, 900, 768);
-        return simulationScene;
 
     }
     private void startMenu(){
@@ -200,8 +194,8 @@ public class App extends Application {
         Text optionText = createText("Map options:");
         this.mapList=new ListView<>();
         this.mapList.setPrefHeight(2 * ROW_HEIGHT);
-        mapList.getItems().add("Earth");
-        mapList.getItems().add("PortalMap");
+        mapList.getItems().add("Kula ziemska ");
+        mapList.getItems().add("Piekielny portal");
         HBox optionsBox = createHBox(optionText, this.mapList);
 
         // Animal properties
@@ -251,8 +245,8 @@ public class App extends Application {
         Text spawnOptionText = createText("Spawning grass options:");
         this.spawningList=new ListView<>();
         this.spawningList.setPrefHeight(2 * ROW_HEIGHT);
-        spawningList.getItems().add("Zalesione równiki");
-        spawningList.getItems().add("Toksyczne trupy");
+        spawningList.getItems().add("Zalesione rowniki");
+        spawningList.getItems().add("Toksyczne trupy (NIEDOSTEPNE)");
         HBox spawnOptionsBox = createHBox(spawnOptionText, this.spawningList);
 
         // Other options

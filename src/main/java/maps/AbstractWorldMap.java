@@ -1,6 +1,7 @@
 package maps;
 
 import elements.Animal;
+import elements.Genome;
 import elements.Grass;
 import elements.Vector2d;
 import fields.AbstractField;
@@ -18,6 +19,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     AbstractField field;
     protected int startedGrass;
     protected int dailyGrass;
+    private ArrayList<Animal> deadAnimals=new ArrayList<>();
     protected HashMap<Vector2d, Grass> grassPositions= new HashMap<Vector2d, Grass>();
 
 
@@ -119,10 +121,12 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         ArrayList<Animal> toRemove = new ArrayList<>();
         for(Animal animal:animalsList){
             if(animal.isDead()){
+                deadAnimals.add(animal);
                 animal.setDeathDate(this.day);
                 toRemove.add(animal);
                 removeFromMap(animal, animal.getPosition());
                 animal.removeObserver(this);
+
             }
 
         }
@@ -235,26 +239,85 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
 
     }
-    public void printAnimals(){
-        int i=0;
-        for (ArrayList<Animal> animal: animals.values()){
-            for(Animal a:animal){
-                i++;
-                System.out.println(i+" "+"aaaaaaaaaaaa"+a.getPosition());
-
-            }
-        }
-        i=0;
-        for(Animal animal:animalsList){
-            i++;
-            System.out.println(i+" "+""+animal.getPosition()+" ");
-
-        }
-    }
+//    public void printAnimals(){
+//        int i=0;
+//        for (ArrayList<Animal> animal: animals.values()){
+//            for(Animal a:animal){
+//                i++;
+//                System.out.println(i+" "+"aaaaaaaaaaaa"+a.getPosition());
+//
+//            }
+//        }
+//        i=0;
+//        for(Animal animal:animalsList){
+//            i++;
+//            System.out.println(i+" "+""+animal.getPosition()+" ");
+//
+//        }
+//    }
 
     public String toString(){
         MapVisualizer visualizer = new MapVisualizer(this);
         return visualizer.draw(new Vector2d(0,0),new Vector2d(this.width,this.height));
+    }
+
+    public int getNumberOfAnimals(){
+        return this.animalsList.size();
+    }
+
+    public int getNumberOfGrass(){
+        return this.grassPositions.size();
+    }
+    public int getFreePositions(){
+
+        return width*height-getNumberOfGrass();//chyba do poprawy
+    }
+
+    public double getAverageEnergy(){
+        int sumOfEnergy=animalsList.stream().reduce(0,(acc,animal2) -> acc+animal2.getEnergy(),Integer::sum);
+        return sumOfEnergy/getNumberOfAnimals();
+    }
+
+
+    public double getAverageAge(){
+        int sumOfAge=deadAnimals.stream().reduce(0,(acc,animal2) -> acc+animal2.getAge(),Integer::sum);
+        if(deadAnimals.size()>0){
+            return sumOfAge/deadAnimals.size();
+
+        }
+        else {
+            return 0;
+        }
+
+    }
+    public Genome getDominantGenome(){
+        Genome DominantGenotype=null;
+        HashMap<Genome, Integer> GenotypeCounter = new HashMap<>();
+        int max=0;
+        int currCounter;
+        for (Animal animal : this.animalsList) {
+            Genome animalGenotype = animal.getGenome();
+            if (GenotypeCounter.containsKey(animalGenotype)) {
+                currCounter=GenotypeCounter.get(animalGenotype) + 1;
+                GenotypeCounter.put(animalGenotype, currCounter);
+                if(currCounter>max){
+                    max=currCounter;
+                    DominantGenotype=animalGenotype;
+                }
+            }
+            else {
+                GenotypeCounter.put(animalGenotype,1);
+                if (DominantGenotype == null) {
+                    DominantGenotype = animalGenotype;
+                }
+
+
+            }
+        }
+
+        return DominantGenotype;
+
+
     }
 
 

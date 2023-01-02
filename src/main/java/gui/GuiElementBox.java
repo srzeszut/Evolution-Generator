@@ -21,6 +21,16 @@ public class GuiElementBox {
         vbox.setAlignment(Pos.CENTER);
 
 
+
+    }
+    public GuiElementBox(IMapElement element,int width,int height,Image image) {//cos zeby szybciej ładowało
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+        vbox=new VBox(imageView);
+        vbox.setAlignment(Pos.CENTER);
+
+
     }
 
     protected VBox getBox(){

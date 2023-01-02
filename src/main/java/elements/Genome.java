@@ -2,6 +2,7 @@ package elements;
 
 import interfaces.IMutation;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Genome {
@@ -75,5 +76,10 @@ public class Genome {
     public void setGene(int index,int gene) {
         this.genes[index] = gene;
 
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(this.genes);
     }
 }

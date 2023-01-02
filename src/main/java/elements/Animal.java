@@ -31,6 +31,8 @@ public class Animal extends AbstractMapElement {
     private int numberOfChildren;
     private int bornDate;
     private int deathDate;
+
+    private int plantsEaten;
     private int numberOfGenes;//pobiera w simulation
     private  ArrayList<IPositionChangeObserver> positionChangeObservers;
 
@@ -55,6 +57,7 @@ public class Animal extends AbstractMapElement {
         this.fullEnergy=fullEnergy;
         this.bornDate=bornDay;
         this.deathDate=0;
+        this.plantsEaten=0;
 
 
     }
@@ -64,7 +67,8 @@ public class Animal extends AbstractMapElement {
 //    }
     public void eat(Grass grass){
         this.energy+=grass.getEnergy();
-//        System.out.println(grass.getEnergy());
+        this.plantsEaten++;
+//        System.out.println("EATING "+grass.getEnergy());
 
     }
     public boolean isDead(){
@@ -93,8 +97,6 @@ public class Animal extends AbstractMapElement {
 
         this.positionChanged(this.position,newPosition);
         this.position = newPosition;
-
-
 
 
     }
@@ -156,10 +158,11 @@ public class Animal extends AbstractMapElement {
 
     @Override
     public String getResource() {
-        if(this.energy/fullEnergy>0.6){
+        if(this.energy>fullEnergy*0.6){
             return "src/main/resources/animalstrong.png";
 
-        } else if (this.energy/fullEnergy<0.6 && this.energy/fullEnergy>0.3) {
+        }
+        else if (this.energy<=fullEnergy*0.6 && this.energy>fullEnergy*0.3) {
             return "src/main/resources/animalmid.png";
 
         }
@@ -170,6 +173,13 @@ public class Animal extends AbstractMapElement {
 
     }
 
+    public Genome getGenome() {
+        return genome;
+    }
+
+    public int getPlantsEaten() {
+        return plantsEaten;
+    }
 
 
     public int getEnergy(){
@@ -183,7 +193,9 @@ public class Animal extends AbstractMapElement {
         this.age+=age;
     }
 
-
+    public int getDeathDate() {
+        return deathDate;
+    }
 
     public int getNumberOfChildren(){
         return this.numberOfChildren;
