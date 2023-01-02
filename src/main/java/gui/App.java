@@ -218,13 +218,8 @@ public class App extends Application {
         genomeList.getItems().add("Nieco szalenstwa");
         HBox genomeBox = createHBox(genomeText, this.genomeList);
 
-//        Text dailyEnergyUsageText = createText("Daily energy usage:");
-//        this.dailyEnergyUsageTextField = new TextField("1");
-//        HBox dailyEnergyUsageBox = createHBox(dailyEnergyUsageText, this.dailyEnergyUsageTextField);
 
-
-
-        // Spawning properties
+        // grass properties
         HBox grassProperties = createHeadLineText("Grass properties:", 16);
         Text grassProfitText = createText("Grass profit:");
         this.grassProfitTextField = new TextField("10");
@@ -263,9 +258,8 @@ public class App extends Application {
         this.optionsVBox.setSpacing(20);
         this.optionsVBox.setAlignment(Pos.CENTER);
 
-//        startBox.getChildren().add(startButton);
         this.mainVBox = new VBox(this.optionsVBox);
-        this.mainVBox.setSpacing(50);
+
 
     }
     private SimulationEngine setSimulationFromOptions(SimulationWindow window){
@@ -281,7 +275,6 @@ public class App extends Application {
          int delay=Integer.parseInt((this.refreshTimeTextField).getText());
          int minimumEnergy=Integer.parseInt((this.minimumEnergyTextField).getText());
          double reproductionCost=Double.parseDouble(this.reproductionCostField.getText());
-//         int reproductionEnergy=Integer.parseInt(this.widthTextField.getText());
 
         AbstractField field=new ForestedEquator();;
         for(Object o : fieldOption){
@@ -322,7 +315,8 @@ public class App extends Application {
                 map=new PortalMap(mapWidth,mapHeight,startingGrass,grassEnergy,growingGrass,field);
             }
         }
-        return new SimulationEngine(window,map,numberOfAnimals,startingEnergy,reproductionCost,0,3,mutation,genomeLength,choice,minimumEnergy,delay);
+        return new SimulationEngine(window,map,numberOfAnimals,startingEnergy,
+                reproductionCost,0,genomeLength,mutation,genomeLength,choice,minimumEnergy,delay);
 
 
     }

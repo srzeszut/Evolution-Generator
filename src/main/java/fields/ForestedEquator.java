@@ -2,10 +2,7 @@ package fields;
 
 import elements.Grass;
 import elements.Vector2d;
-
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Random;
 
 public class ForestedEquator extends AbstractField {
@@ -14,7 +11,6 @@ public class ForestedEquator extends AbstractField {
     @Override
     public void generatePositions()
     {
-
         int equatorStart= (int)(map.getHeight()*0.4);
         int equatorEnd=(int)(map.getHeight()*0.6);
         for(int i=0;i<map.getHeight();i++){

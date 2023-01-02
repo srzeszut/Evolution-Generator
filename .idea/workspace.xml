@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="added genotype">
+    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="added toxicbodies">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/elements/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Animal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/elements/Genome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Genome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fields/Trupy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/ToxicBodies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/maps/PortalMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/PortalMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +130,7 @@
       <workItem from="1672502730439" duration="399000" />
       <workItem from="1672610919356" duration="6920000" />
       <workItem from="1672657106842" duration="9759000" />
-      <workItem from="1672669717204" duration="10305000" />
+      <workItem from="1672669717204" duration="12292000" />
     </task>
     <task id="LOCAL-00001" summary="project start">
       <created>1671579392497</created>
@@ -190,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672686181518</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added toxicbodies">
+      <created>1672693647519</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1672693647519</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +221,8 @@
     <MESSAGE value="added gui" />
     <MESSAGE value="added stats" />
     <MESSAGE value="added genotype" />
-    <option name="LAST_COMMIT_MESSAGE" value="added genotype" />
+    <MESSAGE value="added toxicbodies" />
+    <option name="LAST_COMMIT_MESSAGE" value="added toxicbodies" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

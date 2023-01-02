@@ -9,6 +9,8 @@ import java.util.Random;
 public class Genome {
     private int[] genes;
     private IMutation mutation;
+    private int minNumberOfMutations;
+    private int maxNumberOfMutations;
     Random random = new Random();
 
     public Genome(int numberOfGenes,IMutation mutation) {
@@ -20,12 +22,15 @@ public class Genome {
 
     }
 
-    public Genome(Genome strongerParentGenome, Genome weakerParentGenome, int strongerParentEnergy, int weakerParentEnergy, int numberOfGenes,IMutation mutation) {
+    public Genome(Genome strongerParentGenome, Genome weakerParentGenome, int strongerParentEnergy,
+                  int weakerParentEnergy, int numberOfGenes,IMutation mutation,int minNumberOfMutations,int maxNumberOfMutations) {
 
         int strongerParentGenes[] = strongerParentGenome.getGenes();
         int weakerParentGenes[] = weakerParentGenome.getGenes();
         this.genes = new int[numberOfGenes];
         this.mutation=mutation;
+        this.minNumberOfMutations=minNumberOfMutations;
+        this.maxNumberOfMutations=maxNumberOfMutations;
 
         int sumOfEnergy = strongerParentEnergy + weakerParentEnergy;
 
@@ -56,7 +61,7 @@ public class Genome {
 
         }
 
-        int numberOfMutations=random.nextInt(numberOfGenes);//min max liczba mutacji
+        int numberOfMutations=random.nextInt(minNumberOfMutations,maxNumberOfMutations);//min max liczba mutacji
         for(int i = 0;i<numberOfMutations;i++){
             int chooseGene=random.nextInt(numberOfGenes);
             this.genes[chooseGene]=this.mutation.mutate(this.genes[chooseGene]);

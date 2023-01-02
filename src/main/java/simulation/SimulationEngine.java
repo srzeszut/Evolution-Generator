@@ -33,16 +33,17 @@ public class SimulationEngine implements Runnable {
         this.delay=delay;
         for (int i = 0; i < numberOfAnimals; i++) {
             Vector2d newPosition = new Vector2d(random.nextInt(this.map.getWidth()-1), random.nextInt(this.map.getHeight()-1));
+
             Genome genome = new Genome(genomeLength, mutation);
-            Animal animalToSpawn = new Animal(map, newPosition, startingEnergy, genome, mutation, geneChoice, genomeLength, neededEnergy, fullEnergy, map.getDay());
+
+            Animal animalToSpawn = new Animal(map, newPosition, startingEnergy, genome, mutation, geneChoice,
+                    genomeLength, neededEnergy, fullEnergy, map.getDay(),minNumberOfMutations,maxNumberOfMutations);
+
             this.map.place(animalToSpawn);
-//            System.out.println(Arrays.toString(genome.getGenes()));
 
 
         }
-//        for (Vector2d key : map.getGrassPositions()) {
-//            System.out.println(key);
-//        }
+
 
     }
     public void end(){
@@ -69,35 +70,29 @@ public class SimulationEngine implements Runnable {
 
     @Override
     public void run() {
-//        for (int i = 0; i < 5; i++)
+
         try{
             Thread.sleep(2000);
         }catch (InterruptedException err){
             System.out.println(err.getMessage());
         }
-        int i=0;
         while ((this.map.getAnimals().size())>0 && !flag)
          {
-//             System.out.println("Energy: "+this.map.getAverageEnergy());
-//             System.out.println("ESum: "+this.map.getSumEnergy());
-//             System.out.println("Num: "+this.map.getNumberOfAnimals());
-
-//             System.out.println("Age: "+this.map.getAverageAge());
-//             System.out.println("Genoome: "+this.map.getDominantGenome());
-
-//             System.out.println("number of animals" + this.map.getAnimals().size());
-//             this.map.printAnimals();
             this.map.removeDead();
             this.map.moveAnimals();
             this.map.eatGrass();
             this.map.reproduction();
             this.map.addNewGrass();
-            this.map.anotherDay();
 
             Platform.runLater(()->{
                 this.app.renderGrid();
-                this.app.renderStats();
+                if(this.map.getDominantGenome()!=null){
+                    this.app.renderStats();
+                }
+
             });
+
+             this.map.anotherDay();
             try{
                 Thread.sleep(delay);
             }catch (InterruptedException err){

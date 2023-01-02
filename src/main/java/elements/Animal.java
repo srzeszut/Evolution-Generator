@@ -31,6 +31,8 @@ public class Animal extends AbstractMapElement {
     private int numberOfChildren;
     private int bornDate;
     private int deathDate;
+    private int minNumberOfMutations;
+    private int maxNumberOfMutations;
 
     private int plantsEaten;
     private int numberOfGenes;//pobiera w simulation
@@ -38,7 +40,8 @@ public class Animal extends AbstractMapElement {
 
     public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,
                   Genome genome,IMutation mutation,IGeneChoice geneChoice,
-                  int numberOfGenes,double reproductionCost,int fullEnergy,int bornDay){//ewentualnie 2 konstruktory
+                  int numberOfGenes,double reproductionCost,int fullEnergy,
+                  int bornDay,int minNumberOfMutations,int maxNumberOfMutations){//ewentualnie 2 konstruktory
         this.position = initialPosition;//random position
         this.map = map;
         this.mutation=mutation;
@@ -48,7 +51,8 @@ public class Animal extends AbstractMapElement {
         this.age=0;
         this.numberOfChildren=0;
         this.geneChoice=geneChoice;
-//        this.genome=new Genome(numberOfGenes);
+        this.minNumberOfMutations=minNumberOfMutations;
+        this.maxNumberOfMutations=maxNumberOfMutations;
         this.genome=genome;
         this.direction=setRandomOrientation();
         this.positionChangeObservers = new ArrayList<>();
@@ -132,8 +136,12 @@ public class Animal extends AbstractMapElement {
             weakerParent=this;
 
         }
-        Genome childGenome = new Genome(strongerParent.genome,weakerParent.genome,strongerParent.energy, weakerParent.energy, numberOfGenes,this.mutation);
-        Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome,this.mutation,this.geneChoice,numberOfGenes,reproductionCost,fullEnergy,this.map.getDay());
+        Genome childGenome = new Genome(strongerParent.genome,weakerParent.genome,strongerParent.energy,
+                weakerParent.energy, numberOfGenes,this.mutation,this.minNumberOfMutations,this.maxNumberOfMutations);
+
+        Animal childAnimal = new Animal(this.map,this.position,childEnergy,childGenome,this.mutation,
+                this.geneChoice,numberOfGenes,reproductionCost,fullEnergy,this.map.getDay(),this.minNumberOfMutations,this.maxNumberOfMutations);
+
         this.numberOfChildren++;
         otherAnimal.numberOfChildren++;
 //        this.map.place(childAnimal);
