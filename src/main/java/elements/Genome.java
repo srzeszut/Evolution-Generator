@@ -3,6 +3,7 @@ package elements;
 import interfaces.IMutation;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 public class Genome {
@@ -76,6 +77,23 @@ public class Genome {
     public void setGene(int index,int gene) {
         this.genes[index] = gene;
 
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(this==other)
+            return true;
+        if(!(other instanceof Genome))
+            return false;
+        Genome that = (Genome) other;
+        if(Arrays.equals(this.genes, that.genes))
+            return true;
+        else
+            return false;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.genes);
     }
 
     @Override

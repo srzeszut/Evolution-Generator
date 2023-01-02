@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
@@ -79,32 +80,13 @@ public class App extends Application {
     private final int simulationWidth=950;
     private Button startButton;
     private Button back;
-
-    public void init(){
-        try {
-//            AbstractField field=new ForestedEquator();
-//            map=new Earth(50,50,260,2,50,field);
-//            IMutation mutation= new RandomMutation();
-//            IGeneChoice choice=new Madness();
-//            engine =
-//                    new SimulationEngine(this,map,200,50,
-//                            0.2,0,3,mutation,30,choice,10,200);//zrobic minmax mutacje
-////            Thread engineThread = new Thread(engine);
-////            engineThread.start();
-
-
-        }
-        catch (IllegalArgumentException err){
-            out.println(err.getMessage());
-            Platform.exit();
-        }
-
-    }
+    private TextField minimumEnergyTextField;
+    private TextField reproductionCostField;
 
     @Override
     public void start(Stage primaryStage){
         try{
-            primaryStage.setTitle("Evolution Simulator");
+            primaryStage.setTitle("Evolution Generator");
             try{
                 Image image = new Image(new FileInputStream("src/main/resources/animal.jpg"));
                 primaryStage.getIcons().add(image);
@@ -122,9 +104,11 @@ public class App extends Application {
         primaryStage.setWidth(bounds.getWidth());
         primaryStage.setHeight(bounds.getHeight());
 
-//        ScrollPane scroll = new ScrollPane();
+        ScrollPane scroll = new ScrollPane();
+        scroll.setContent(this.mainVBox);
         Scene scene = new Scene(this.mainVBox);
-//        scroll.setContent(this.mainVBox);
+
+
         primaryStage.setScene(scene);
         primaryStage.show();
             this.back=new Button("Back");
@@ -181,7 +165,7 @@ public class App extends Application {
     }
     private void startMenu(){
         // Welcome text
-        HBox welcomeText = createHeadLineText("Evolution Simulator 2000!", 24);
+        HBox welcomeText = createHeadLineText("Evolution Generator 2000!", 24);
 
         // Map properties
         HBox mapProperties = createHeadLineText("Map properties:", 16);
@@ -206,6 +190,14 @@ public class App extends Application {
         Text animalsAtTheBeginningText = createText("Animals spawned at the beginning:");
         this.animalsAtTheBeginningTextField = new TextField("10");
         HBox animalsAtTheBeginningBox = createHBox(animalsAtTheBeginningText, this.animalsAtTheBeginningTextField);
+
+        Text minimumEnergyText = createText("Minimum energy to reproduce:");
+        this.minimumEnergyTextField = new TextField("100");
+        HBox minimumEnergyBox = createHBox(minimumEnergyText, this.minimumEnergyTextField);
+
+        Text reproductionCostText = createText("Reproduction cost (0,1):");
+        this.reproductionCostField = new TextField("0.2");
+        HBox reproductionBox = createHBox(reproductionCostText, this.reproductionCostField);
 
         Text mutationText = createText("Mutation options:");
         this.mutationList=new ListView<>();
@@ -260,8 +252,12 @@ public class App extends Application {
         this.startButton =new Button("Start");
         HBox startBox=createHBox(new Text(""),startButton);
 
-        this.optionsVBox = new VBox(welcomeText, mapProperties, heightBox, widthBox,optionsBox, animalProperties, startingEnergyBox
-                , animalsAtTheBeginningBox,mutationBox,genomeLengthBox,genomeBox,grassProperties,grassAtTheBeginningBox,grassEverydayBox,spawnOptionsBox,grassProfitBox,  otherOptions,
+        HBox animalAndGrassOptions=new HBox(50,new VBox(20,animalProperties, startingEnergyBox
+                , animalsAtTheBeginningBox,mutationBox,genomeLengthBox,genomeBox,minimumEnergyBox,reproductionBox)
+                ,new VBox(20,grassProperties,grassAtTheBeginningBox,grassEverydayBox,spawnOptionsBox,grassProfitBox));
+        animalAndGrassOptions.setAlignment(Pos.CENTER);
+
+        this.optionsVBox = new VBox(welcomeText, mapProperties, heightBox, widthBox,optionsBox,animalAndGrassOptions ,  otherOptions,
                 refreshTimeBox,startBox );
         this.optionsVBox.setSpacing(20);
         this.optionsVBox.setAlignment(Pos.CENTER);
@@ -282,7 +278,8 @@ public class App extends Application {
          int startingEnergy=Integer.parseInt(this.startingEnergyTextField.getText());
          int genomeLength=Integer.parseInt(this.genomeLengthField.getText());
          int delay=Integer.parseInt((this.refreshTimeTextField).getText());
-//         int neededEnergy=Integer.parseInt(this.widthTextField.getText());
+         int minimumEnergy=Integer.parseInt((this.minimumEnergyTextField).getText());
+         double reproductionCost=Double.parseDouble(this.reproductionCostField.getText());
 //         int reproductionEnergy=Integer.parseInt(this.widthTextField.getText());
 
         AbstractField field=new ForestedEquator();;
@@ -324,7 +321,7 @@ public class App extends Application {
                 map=new PortalMap(mapWidth,mapHeight,startingGrass,grassEnergy,growingGrass,field);
             }
         }
-        return new SimulationEngine(window,map,numberOfAnimals,startingEnergy,0.2,0,3,mutation,genomeLength,choice,100,delay);
+        return new SimulationEngine(window,map,numberOfAnimals,startingEnergy,reproductionCost,0,3,mutation,genomeLength,choice,minimumEnergy,delay);
 
 
     }

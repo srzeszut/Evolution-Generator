@@ -93,7 +93,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected void spawnGrass(int numberOfGrass){//opcja jak juz sie nie mieszcza
 //        System.out.println("here");
         for(int i=0;i<numberOfGrass;i++){
-            Vector2d newPosition=this.field.spawnGrass(numberOfGrass);
+            Vector2d newPosition=this.field.spawnGrass();
             if(newPosition!=null){
                 Grass clumpOfGrass = new Grass(newPosition,this.grassEnergy);
 
@@ -161,7 +161,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
                 Animal parent2=animals.get(animals.size()-2);
                 if(parent2.isFull() && parent1.isFull()){
                     Animal child= parent1.reproduce(parent2);
-                    System.out.println("reproduciton");
+//                    System.out.println("reproduciton");
                     this.place(child);
 
                 }
@@ -234,27 +234,11 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
             positions.add(grass);
 
         }
-//        positions.addAll(grassPositions.values());
         return (ArrayList)positions.clone();
 
 
     }
-//    public void printAnimals(){
-//        int i=0;
-//        for (ArrayList<Animal> animal: animals.values()){
-//            for(Animal a:animal){
-//                i++;
-//                System.out.println(i+" "+"aaaaaaaaaaaa"+a.getPosition());
-//
-//            }
-//        }
-//        i=0;
-//        for(Animal animal:animalsList){
-//            i++;
-//            System.out.println(i+" "+""+animal.getPosition()+" ");
-//
-//        }
-//    }
+
 
     public String toString(){
         MapVisualizer visualizer = new MapVisualizer(this);
@@ -292,27 +276,32 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     public Genome getDominantGenome(){
         Genome DominantGenotype=null;
-        HashMap<Genome, Integer> GenotypeCounter = new HashMap<>();
+        HashMap<Genome, Integer> genotypeCounter = new HashMap<>();
         int max=0;
         int currCounter;
         for (Animal animal : this.animalsList) {
             Genome animalGenotype = animal.getGenome();
-            if (GenotypeCounter.containsKey(animalGenotype)) {
-                currCounter=GenotypeCounter.get(animalGenotype) + 1;
-                GenotypeCounter.put(animalGenotype, currCounter);
+            if (genotypeCounter.containsKey(animalGenotype)) {
+                currCounter=genotypeCounter.remove(animalGenotype) + 1;
+                genotypeCounter.put(animalGenotype, currCounter);
                 if(currCounter>max){
                     max=currCounter;
                     DominantGenotype=animalGenotype;
                 }
             }
             else {
-                GenotypeCounter.put(animalGenotype,1);
+                genotypeCounter.put(animalGenotype,1);
                 if (DominantGenotype == null) {
                     DominantGenotype = animalGenotype;
+                    max=1;
                 }
 
 
             }
+        }
+        System.out.println(max);
+        for(Genome g :genotypeCounter.keySet()){
+            System.out.println(g+" "+genotypeCounter.get(g));
         }
 
         return DominantGenotype;

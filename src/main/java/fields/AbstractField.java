@@ -23,7 +23,7 @@ public abstract class AbstractField implements IFieldOption {//protected
         this.map = map;
     }
     @Override
-    public Vector2d spawnGrass(int numberOfGrass) {
+    public Vector2d spawnGrass() {
 
         Random random = new Random();
             int chances = random.nextInt(101);

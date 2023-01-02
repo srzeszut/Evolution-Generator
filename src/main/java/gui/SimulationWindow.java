@@ -34,9 +34,11 @@ public class SimulationWindow {
     private final int simulationWidth=950;
     private SimulationEngine engine;
     private Image grassImage;
+    private Image dominantImage;
     private  VBox stastisticsBox;
     private Animal trackedAnimal;
     private boolean stopped;
+    private boolean showDominant;
 
     private  VBox animalBox;
     private HBox buttonsBox;
@@ -50,8 +52,10 @@ public class SimulationWindow {
         stastisticsBox.setPrefWidth(400);
         this.scene=this.createScene();
         stopped=false;
+        showDominant=false;
         try{
              grassImage = new Image(new FileInputStream(new Grass(new Vector2d(0,0),0).getResource()));
+             dominantImage= new Image(new FileInputStream("src/main/resources/animaldominant.png"));
         }
         catch (FileNotFoundException err){
             out.println(err.getMessage());
@@ -187,17 +191,23 @@ public class SimulationWindow {
 
         Vector2d[] grassesAndAnimals = getAnimalsAndGrasses();
 
-
         for (Vector2d position : grassesAndAnimals) {
             GuiElementBox element;
-//            if(map.objectAt(position)!=null) {
-//                Label guiElement = new Label(map.objectAt(position).toString());
-//                grid.add(guiElement, position.getX(), position.getY(), 1, 1);
-//                GridPane.setHalignment(guiElement, HPos.CENTER);
-//            }
             try{
                 if(map.objectAt(position)!=null && map.objectAt(position) instanceof Animal){
-                element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight);//dodac na klikniecie
+                    if(showDominant && stopped){
+                        if( ((Animal) map.objectAt(position)).getGenome().equals(map.getDominantGenome())){
+                            System.out.println("niebieski");
+                            element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight,dominantImage);
+                        }
+                        else {
+                            element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight);
+                        }
+                    }
+                    else{
+                        element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight);
+
+                    }
                     element.getBox().setOnMouseClicked((action)->{
                         if(stopped){
                         trackedAnimal= (Animal)map.objectAt(position);
@@ -248,9 +258,11 @@ public class SimulationWindow {
         return animalsAndGrasses;
     }
 
-    private HBox buttons(){
+    private VBox buttons(){
         Button stopButton=new Button("Stop");
         Button resumeButton=new Button("Resume");
+        Button showDominantButton=new Button("Show dominant genotype");
+        Button closeDominantButton=new Button("Close dominant genotype");
 
         stopButton.setOnAction((click->{
             this.stopped=true;
@@ -267,10 +279,27 @@ public class SimulationWindow {
 
         });
 
-        return new HBox(20, stopButton,resumeButton);
+        showDominantButton.setOnAction((click)->{
+            this.showDominantGenotype();
+
+        });
+
+        closeDominantButton.setOnAction((click)->{
+            this.closeDominantGenotype();
+
+        });
+
+        return new VBox(20, new HBox(10,stopButton,resumeButton),new HBox(10,showDominantButton,closeDominantButton));
     }
 
     private void showDominantGenotype(){
+        this.showDominant=true;
+        renderGrid();
+
+    }
+    private void closeDominantGenotype(){
+        this.showDominant=false;
+        renderGrid();
 
     }
 

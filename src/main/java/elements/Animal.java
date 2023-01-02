@@ -76,7 +76,7 @@ public class Animal extends AbstractMapElement {
     }
 
     public boolean isFull(){
-        return this.energy==fullEnergy;
+        return this.energy>=fullEnergy;
     }
 
     public void rotate(){
@@ -137,7 +137,7 @@ public class Animal extends AbstractMapElement {
         this.numberOfChildren++;
         otherAnimal.numberOfChildren++;
 //        this.map.place(childAnimal);
-        System.out.println("reproduction");
+//        System.out.println("reproduction");
         return childAnimal;
 
 
