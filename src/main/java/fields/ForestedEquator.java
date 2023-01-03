@@ -3,7 +3,6 @@ package fields;
 import elements.Grass;
 import elements.Vector2d;
 import java.util.Collections;
-import java.util.Random;
 
 public class ForestedEquator extends AbstractField {
 
@@ -32,7 +31,7 @@ public class ForestedEquator extends AbstractField {
 
 
     @Override
-    protected Vector2d spawnFavoured() {//co jesli nullem
+    protected Vector2d spawnFavoured() {
 
         Vector2d grassPosition=null;
         for(Vector2d position: favouredGrassPositions){
@@ -43,10 +42,8 @@ public class ForestedEquator extends AbstractField {
             }
         }
 
-//        System.out.println("fp"+grassPosition);
         return grassPosition;
     }
-    Random random= new Random();
     @Override
     protected Vector2d spawnDisfavoured() {
         Vector2d grassPosition=null;

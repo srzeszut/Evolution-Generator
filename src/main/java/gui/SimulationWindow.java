@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -24,7 +25,6 @@ import java.util.List;
 import static java.lang.System.out;
 
 public class SimulationWindow {
-    private Thread engineThread;
     private AbstractWorldMap map;
     private final GridPane grid = new GridPane();
     private final Scene scene;
@@ -63,8 +63,13 @@ public class SimulationWindow {
 
     private Scene createScene(){
 
+
+
         HBox container =new HBox(10,new VBox(10,buttonsBox, statisticsBox), grid,animalBox);
-        return new Scene(container, 900, 768);
+        GridPane root= new GridPane();
+        root.add(container, 0, 0, 1, 1);
+        ScrollPane scroll=new ScrollPane(root);
+        return new Scene(scroll, 900, 768);
 
 
     }
@@ -149,11 +154,6 @@ public class SimulationWindow {
         Label deathCounter=new Label(Double.toString(animal.getDeathDate()));
         HBox deathBox=createStatsElement(death,deathCounter);
 
-//        Button stopTracking=new Button("Stop tracking");
-//
-//        stopTracking.setOnAction((click)->{
-//            this.trackedAnimal=null;
-//        });
 
         VBox newStatisticsBox= new VBox(10,new Label("ANIMAL STATS"),genomeBox,activatedBox,energyBox,plantsBox,childrenBox,ageBox,deathBox);
         animalBox.getChildren().add(newStatisticsBox);
@@ -199,7 +199,10 @@ public class SimulationWindow {
         for (Vector2d position : grassesAndAnimals) {
             GuiElementBox element;
             try{
-                if(map.objectAt(position)!=null && map.objectAt(position) instanceof Animal){
+                if (map.objectAt(position) != null) {
+
+
+                if( map.objectAt(position) instanceof Animal){
                     if(showDominant && stopped){
                         if( ((Animal) map.objectAt(position)).getGenome().equals(map.getDominantGenome())){
                             element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight,dominantImage);
@@ -234,6 +237,7 @@ public class SimulationWindow {
                     grid.add(element.getBox(),position.getX(), position.getY(),1,1);
                     GridPane.setHalignment(element.getBox(), HPos.CENTER);
 
+                }
                 }
             }
             catch (FileNotFoundException err){
@@ -316,7 +320,4 @@ public class SimulationWindow {
         return engine;
     }
 
-    public void setEngineThread(Thread engineThread) {
-        this.engineThread = engineThread;
-    }
 }

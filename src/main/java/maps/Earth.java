@@ -4,7 +4,6 @@ import elements.Animal;
 import elements.Vector2d;
 import enums.MapDirection;
 import fields.AbstractField;
-import interfaces.IFieldOption;
 
 public class Earth extends AbstractWorldMap{
 
@@ -21,7 +20,7 @@ public class Earth extends AbstractWorldMap{
         return position.follows(new Vector2d(0,0)) && position.precedes(new Vector2d(width-1,height-1));
     }
 
-    @Override//wychodzi poza mape w rogach
+    @Override
     public Vector2d findNewPosition(Animal animal,Vector2d wantedPosition) {
         Vector2d newPosition=wantedPosition;
 

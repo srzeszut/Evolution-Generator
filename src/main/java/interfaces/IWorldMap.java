@@ -10,7 +10,7 @@ public interface IWorldMap {
 
     Vector2d findNewPosition(Animal animal,Vector2d wantedPosition);//znajduje nową pozycje dla animala jeśli canmoveto zwróci fałsz
 
-    boolean place(Animal animal);
+    void place(Animal animal);
 
 
    default boolean isOccupied(Vector2d position){

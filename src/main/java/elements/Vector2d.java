@@ -13,8 +13,7 @@ public class Vector2d {
     }
 
     public String toString() {
-        String output = String.format("(%d,%d)", this.x, this.y);
-        return output;
+        return String.format("(%d,%d)", this.x, this.y);
     }
 
     public boolean precedes(Vector2d other) {
@@ -31,50 +30,41 @@ public class Vector2d {
 
         int minX = Math.min(this.x, other.x);
         int minY = Math.min(this.y, other.y);
-        Vector2d output = new Vector2d(minX, minY);
-        return output;
+        return new Vector2d(minX, minY);
     }
 
     Vector2d upperRight(Vector2d other) {
 
         int maxX = Math.max(this.x, other.x);
         int maxY = Math.max(this.y, other.y);
-        Vector2d output = new Vector2d(maxX, maxY);
-        return output;
+        return new Vector2d(maxX, maxY);
     }
 
     Vector2d add(Vector2d other) {
         int tempX = this.x + other.x;
         int tempY = this.y + other.y;
-        Vector2d output = new Vector2d(tempX, tempY);
-        return output;
+        return new Vector2d(tempX, tempY);
     }
 
     Vector2d subtract(Vector2d other) {
         int tempX = this.x - other.x;
         int tempY = this.y - other.y;
-        Vector2d output = new Vector2d(tempX, tempY);
-        return output;
+        return new Vector2d(tempX, tempY);
     }
 
     Vector2d opposite() {
         int opX = -1 * this.x;
         int opY = -1 * this.y;
-        Vector2d output = new Vector2d(opX, opY);
-        return output;
+        return new Vector2d(opX, opY);
     }
 
     public boolean equals(Object other){
 
         if(this==other)
             return true;
-        if(!(other instanceof Vector2d))
+        if(!(other instanceof Vector2d that))
             return false;
-        Vector2d that = (Vector2d) other;
-        if(that.x==this.x && that.y==this.y)
-            return true;
-        else
-            return false;
+        return that.x == this.x && that.y == this.y;
     }
 
     @Override

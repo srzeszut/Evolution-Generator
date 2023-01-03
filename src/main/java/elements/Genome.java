@@ -3,14 +3,11 @@ package elements;
 import interfaces.IMutation;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Random;
 
 public class Genome {
-    private int[] genes;
-    private IMutation mutation;
-    private int minNumberOfMutations;
-    private int maxNumberOfMutations;
+    private final int[] genes;
+    private final IMutation mutation;
     Random random = new Random();
 
     public Genome(int numberOfGenes,IMutation mutation) {
@@ -29,12 +26,10 @@ public class Genome {
         int weakerParentGenes[] = weakerParentGenome.getGenes();
         this.genes = new int[numberOfGenes];
         this.mutation=mutation;
-        this.minNumberOfMutations=minNumberOfMutations;
-        this.maxNumberOfMutations=maxNumberOfMutations;
 
         int sumOfEnergy = strongerParentEnergy + weakerParentEnergy;
 
-        int strongerParentPart = (int) ((strongerParentEnergy / sumOfEnergy) * numberOfGenes);
+        int strongerParentPart = ((strongerParentEnergy / sumOfEnergy) * numberOfGenes);
         int weakerParentPart = numberOfGenes - strongerParentPart;
 
         int whichPart = random.nextInt(2);
@@ -79,22 +74,13 @@ public class Genome {
     }
 
 
-    public void setGene(int index,int gene) {
-        this.genes[index] = gene;
-
-    }
-
     @Override
     public boolean equals(Object other) {
         if(this==other)
             return true;
-        if(!(other instanceof Genome))
+        if(!(other instanceof Genome that))
             return false;
-        Genome that = (Genome) other;
-        if(Arrays.equals(this.genes, that.genes))
-            return true;
-        else
-            return false;
+        return Arrays.equals(this.genes, that.genes);
     }
     @Override
     public int hashCode() {

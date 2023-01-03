@@ -13,7 +13,7 @@ public enum MapDirection {
     SOUTHWEST("SW"),
     WEST("W"),
     EAST("E");
-    private String direction;
+    private final String direction;
     MapDirection(String direction) {
 
         this.direction=direction;
@@ -54,7 +54,6 @@ public enum MapDirection {
     }
 
 
-
     public Vector2d toUnitVector() {
         return switch (this) {
             case NORTH -> new Vector2d(0, 1);
@@ -68,7 +67,7 @@ public enum MapDirection {
         };
     }
 
-    public static MapDirection setRandomOrientation(){
+    public static MapDirection setRandomOrientation() throws IllegalStateException{
         Random random= new Random();
         int orientation=random.nextInt(8);
         return switch (orientation) {
@@ -80,7 +79,7 @@ public enum MapDirection {
             case 5 -> SOUTHWEST;
             case 6 -> WEST;
             case 7 -> NORTHWEST;
-            default -> throw new IllegalStateException();// jeszcze zobaczyc
+            default -> throw new IllegalStateException();
         };
 
 

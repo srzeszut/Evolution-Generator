@@ -20,10 +20,10 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     AbstractField field;
     protected int startedGrass;
     protected int dailyGrass;
-    private ArrayList<Animal> deadAnimals=new ArrayList<>();
+    private final ArrayList<Animal> deadAnimals=new ArrayList<>();
 
-    private HashMap<Vector2d, Integer> deadPositions= new HashMap<Vector2d, Integer>();
-    protected HashMap<Vector2d, Grass> grassPositions= new HashMap<Vector2d, Grass>();
+    private final HashMap<Vector2d, Integer> deadPositions= new HashMap<>();
+    protected HashMap<Vector2d, Grass> grassPositions= new HashMap<>();
 
 
     public AbstractWorldMap(int width, int height, int startingGrass, int grassEnergy,
@@ -45,8 +45,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     }
 
-    private ArrayList<Animal> animalsList= new ArrayList<>();//zmienic na liste
-    protected Map<Vector2d, ArrayList<Animal>> animals = new ConcurrentHashMap<>();
+    private final ArrayList<Animal> animalsList= new ArrayList<>();
+    protected  Map<Vector2d, ArrayList<Animal>> animals = new ConcurrentHashMap<>();
 
 
 
@@ -55,13 +55,13 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         ArrayList<Animal> animalsOnPositions = this.animals.get(position);
 
         if (animalsOnPositions == null) {
-            ArrayList<Animal> newList= new ArrayList<Animal>();
+            ArrayList<Animal> newList= new ArrayList<>();
             newList.add(animal);
 
             this.animals.put(position, newList);
         } else {
             animalsOnPositions.add(animal);
-            Collections.sort(animalsOnPositions,Comparator.comparingInt(Animal::getEnergy)
+            animalsOnPositions.sort(Comparator.comparingInt(Animal::getEnergy)
                     .thenComparing(Animal::getAge).thenComparing(Animal::getNumberOfChildren).thenComparing(Animal::getActivatedGene));
 
         }
@@ -72,7 +72,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         ArrayList<Animal> animalsOnPositions = this.animals.get(position);
 
         if (animalsOnPositions != null) {
-//            System.out.println("Usuwam");
 
              animalsOnPositions.remove(animal);
 
@@ -87,15 +86,17 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
 
     @Override
-    public boolean place(Animal animal) {
+    public void place(Animal animal) {
         if(canMoveTo(animal.getPosition()))
         {
             addToMap(animal,animal.getPosition());
             animalsList.add(animal);
             animal.addObserver(this);
-            return true;
         }
-        throw new IllegalArgumentException("Couldn't place animal on position: " +animal.getPosition()+".");
+        else{
+            throw new IllegalArgumentException("Couldn't place animal on position: " +animal.getPosition()+".");
+        }
+
     }
 
     protected void spawnGrass(int numberOfGrass){//opcja jak juz sie nie mieszcza
@@ -173,7 +174,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
                 Animal parent2=animals.get(animals.size()-2);
                 if(parent2.isFull() && parent1.isFull()){
                     Animal child= parent1.reproduce(parent2);
-//                    System.out.println("reproduciton");
                     this.place(child);
 
                 }
@@ -223,9 +223,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public int getWidth(){
         return width;
     }
-    public int getGrassEnergy(){
-        return this.grassEnergy;
-    }
 
     public HashMap<Vector2d, Integer> getDeadPositions() {
         return deadPositions;
@@ -233,24 +230,11 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     public ArrayList<Animal> getAnimals() {
 
-        return (ArrayList)animalsList.clone();
+        return animalsList;
     }
 
-    public ArrayList<Vector2d> getGrassPositions() {
-        ArrayList<Vector2d> positions=new ArrayList<>();
-        positions.addAll(grassPositions.keySet());
-
-        return (ArrayList)positions.clone();
-
-
-    }
     public ArrayList<Grass> getGrass() {
-        ArrayList<Grass> positions=new ArrayList<>();
-        for(Grass grass:grassPositions.values()){
-            positions.add(grass);
-
-        }
-        return (ArrayList)positions.clone();
+        return new ArrayList<>(grassPositions.values());
 
 
     }
@@ -270,7 +254,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     public int getFreePositions(){
 
-        return width*height-getNumberOfGrass();//chyba do poprawy
+        return width*height-getNumberOfGrass();
     }
 
     public double getAverageEnergy(){
@@ -315,11 +299,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
             }
         }
-//        System.out.println(max);
-//        for(Genome g :genotypeCounter.keySet()){
-//            System.out.println(g+" "+genotypeCounter.get(g));
-//        }
-
         return DominantGenotype;
 
 

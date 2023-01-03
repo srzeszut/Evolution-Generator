@@ -13,7 +13,6 @@ import interfaces.IMutation;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -31,7 +30,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import maps.AbstractWorldMap;
 import maps.Earth;
 import maps.PortalMap;
@@ -44,15 +42,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Set;
+
 
 
 import static java.lang.System.out;
 
 public class App extends Application {
-    private GridPane grid = new GridPane();
-    private AbstractWorldMap map;
-    private SimulationEngine engine;
+
     private TextField heightTextField;
     private TextField widthTextField;
     private TextField startingEnergyTextField;
@@ -69,8 +65,6 @@ public class App extends Application {
     private ListView mutationList;
     private ListView genomeList;
     private final int ROW_HEIGHT = 24;
-    private String  daysCounter;
-    private HBox daysContainer;
 
     //simulation options
     private ObservableList mapOption;
@@ -78,13 +72,8 @@ public class App extends Application {
     private ObservableList mutationOption;
     private ObservableList genomeOption;
 
-
-
-    private int gridHeight= 20;
-    private int gridWidth= 20;
-    private final int simulationWidth=950;
     private Button startButton;
-    private Button back;
+
     private TextField minimumEnergyTextField;
     private TextField reproductionCostField;
 
@@ -104,24 +93,20 @@ public class App extends Application {
 
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
-        primaryStage.setX(bounds.getMinX());
-        primaryStage.setY(bounds.getMinY());
-        primaryStage.setWidth(bounds.getWidth());
-        primaryStage.setHeight(bounds.getHeight());
+        primaryStage.setWidth(880);
+        primaryStage.setHeight(900);
 
-        ScrollPane scroll = new ScrollPane();
-        scroll.setContent(this.mainVBox);
-        Scene scene = new Scene(this.mainVBox);
+        GridPane root= new GridPane();
+        this.mainVBox.setAlignment(Pos.CENTER);
+        root.add(this.mainVBox, 0, 0, 1, 1);
+
+        root.setAlignment(Pos.CENTER);
+        ScrollPane scroll=new ScrollPane(root);
+        Scene scene = new Scene(scroll);
 
 
         primaryStage.setScene(scene);
         primaryStage.show();
-            this.back=new Button("Back");
-            back.setOnAction((click)->{
-                start(primaryStage);
-                engine.end();
-
-            });
 
         startButton.setOnAction((click) -> {
 
@@ -136,30 +121,26 @@ public class App extends Application {
             newWindow.createStats();
             newWindow.setEngine(newSimulation);
 
-                Stage simulationWindow=new Stage();
+            Stage simulationWindow=new Stage();
 
-                simulationWindow.setScene(newWindow.getScene());//zmienic na scene z statystykami
-                simulationWindow.show();
-                simulationWindow.setX(bounds.getMinX());
-                simulationWindow.setY(bounds.getMinY());
-                simulationWindow.setWidth(bounds.getWidth());
-                simulationWindow.setHeight(bounds.getHeight());
-            Platform.runLater(()->{
-                newWindow.renderGrid();
-            });
+            simulationWindow.setScene(newWindow.getScene());
+            simulationWindow.show();
+            simulationWindow.setX(bounds.getMinX());
+            simulationWindow.setY(bounds.getMinY());
+            simulationWindow.setWidth(bounds.getWidth());
+            simulationWindow.setHeight(bounds.getHeight());
+
+            Platform.runLater(newWindow::renderGrid);
+
             Thread engineThread = new Thread(newWindow.getEngine(),"Simulation");
-            newWindow.setEngineThread(engineThread);
             engineThread.start();
 
 
 
-            simulationWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    System.out.println("Stage is closing");
-                    newSimulation.end();
-                    newSimulation.resume();
-//                    engineThread.interrupt();
-                }
+            simulationWindow.setOnCloseRequest(windowEvent -> {
+                System.out.println("Stage is closing");
+                newSimulation.end();
+                newSimulation.resume();
             });
             });
 
@@ -326,13 +307,12 @@ public class App extends Application {
          int minimumEnergy=Integer.parseInt((this.minimumEnergyTextField).getText());
          double reproductionCost=Double.parseDouble(this.reproductionCostField.getText());
 
-        AbstractField field=new ForestedEquator();;
+        AbstractField field=new ForestedEquator();
         for(Object o : fieldOption){
             if(o.equals(0)){
                 field=new ForestedEquator();
             }
             else{
-//                System.out.println("toksyczne");
                 field=new ToxicBodies();
             }
         }

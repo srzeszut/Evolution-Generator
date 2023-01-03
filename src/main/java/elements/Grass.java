@@ -2,7 +2,7 @@ package elements;
 
 public class Grass extends AbstractMapElement{
 
-    private int energyValue ;
+    private final int energyValue ;
 
     public Grass(Vector2d position,int energy){
         this.position=position;
@@ -12,7 +12,6 @@ public class Grass extends AbstractMapElement{
 
         return "*";
     }
-
     public int getEnergy(){
         return this.energyValue;
     }

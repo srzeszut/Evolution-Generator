@@ -9,10 +9,9 @@ import java.util.ArrayList;
 
 import java.util.Random;
 
-public abstract class AbstractField implements IFieldOption {//protected
+public abstract class AbstractField implements IFieldOption {
 
     protected AbstractWorldMap map;
-
 
     protected ArrayList<Vector2d> favouredGrassPositions=new ArrayList<>();
     protected ArrayList<Vector2d> disfavouredGrassPositions=new ArrayList<>();
@@ -33,15 +32,15 @@ public abstract class AbstractField implements IFieldOption {//protected
                     return favPos;
                 }
                 else {
-                    Vector2d dfavPos = spawnDisfavoured();
-                    if(dfavPos!=null){
-                        return dfavPos;
+                    Vector2d disFavPos = spawnDisfavoured();
+                    if(disFavPos!=null){
+                        return disFavPos;
                     }
                 }
             } else {
-                Vector2d dfavPos = spawnDisfavoured();
-                if(dfavPos!=null) {
-                    return dfavPos;
+                Vector2d disFavPos = spawnDisfavoured();
+                if(disFavPos!=null) {
+                    return disFavPos;
                 }
             }
         return null;

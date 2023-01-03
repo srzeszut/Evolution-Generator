@@ -1,9 +1,7 @@
 package elements;
 
 import enums.MapDirection;
-import enums.MoveDirection;
 import interfaces.IGeneChoice;
-import interfaces.IMapElement;
 import interfaces.IMutation;
 import interfaces.IPositionChangeObserver;
 import maps.AbstractWorldMap;
@@ -11,7 +9,6 @@ import maps.AbstractWorldMap;
 import java.util.ArrayList;
 
 import static enums.MapDirection.setRandomOrientation;
-import static java.lang.Math.abs;
 
 
 public class Animal extends AbstractMapElement {
@@ -19,34 +16,32 @@ public class Animal extends AbstractMapElement {
     private final AbstractWorldMap map;
 
     private final double reproductionCost;
-    private int fullEnergy;
+    private final int fullEnergy;
     private MapDirection direction;
     private int energy;
-    private final int startingEnergy;
-    private IMutation mutation;
-    private Genome genome;
-    private IGeneChoice geneChoice;
+    private final IMutation mutation;
+    private final Genome genome;
+    private final IGeneChoice geneChoice;
     private int activatedGene;
     private int age;
     private int numberOfChildren;
-    private int bornDate;
+    private final int bornDate;
     private int deathDate;
-    private int minNumberOfMutations;
-    private int maxNumberOfMutations;
+    private final int minNumberOfMutations;
+    private final int maxNumberOfMutations;
 
     private int plantsEaten;
-    private int numberOfGenes;//pobiera w simulation
-    private  ArrayList<IPositionChangeObserver> positionChangeObservers;
+    private final int numberOfGenes;
+    private  final ArrayList<IPositionChangeObserver> positionChangeObservers;
 
     public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy,
                   Genome genome,IMutation mutation,IGeneChoice geneChoice,
                   int numberOfGenes,double reproductionCost,int fullEnergy,
-                  int bornDay,int minNumberOfMutations,int maxNumberOfMutations){//ewentualnie 2 konstruktory
+                  int bornDay,int minNumberOfMutations,int maxNumberOfMutations){
         this.position = initialPosition;//random position
         this.map = map;
         this.mutation=mutation;
         this.energy=energy;
-        this.startingEnergy=energy;
         this.activatedGene=0;
         this.age=0;
         this.numberOfChildren=0;
@@ -65,14 +60,11 @@ public class Animal extends AbstractMapElement {
 
 
     }
-//    public Animal(AbstractWorldMap map, Vector2d initialPosition,int energy){
-//        this(map, initialPosition,energy, new Genome(numberOfGenes));
-//
-//    }
+
     public void eat(Grass grass){
         this.energy+=grass.getEnergy();
         this.plantsEaten++;
-//        System.out.println("EATING "+grass.getEnergy());
+
 
     }
     public boolean isDead(){
@@ -144,8 +136,6 @@ public class Animal extends AbstractMapElement {
 
         this.numberOfChildren++;
         otherAnimal.numberOfChildren++;
-//        this.map.place(childAnimal);
-//        System.out.println("reproduction");
         return childAnimal;
 
 

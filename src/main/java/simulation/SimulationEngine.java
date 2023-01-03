@@ -16,15 +16,14 @@ import java.util.*;
 public class SimulationEngine implements Runnable {
 
 
-    private AbstractWorldMap map;
+    private final AbstractWorldMap map;
     private final SimulationWindow app;
-    private int delay ;
+    private final int delay ;
     private boolean stopped;
     private boolean flag=false;
 
     Random random = new Random();
 
-    //genomy,mutacje
     public SimulationEngine(SimulationWindow app, AbstractWorldMap map, int numberOfAnimals, int startingEnergy,
                             double neededEnergy, int minNumberOfMutations, int maxNumberOfMutations,
                             IMutation mutation, int genomeLength, IGeneChoice geneChoice, int fullEnergy, int delay) {
@@ -86,12 +85,6 @@ public class SimulationEngine implements Runnable {
                      }
                  }
              }
-//
-//             Set<Thread> threads = Thread.getAllStackTraces().keySet();
-//             System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
-//             for (Thread t : threads) {
-//                 System.out.printf("%-15s \t %-15s \t %-15d \t %s\n", t.getName(), t.getState(), t.getPriority(), t.isDaemon());
-//             }
             this.map.removeDead();
             this.map.moveAnimals();
             this.map.eatGrass();
@@ -114,10 +107,6 @@ public class SimulationEngine implements Runnable {
                 System.out.println(err.getMessage());
             }
         }
-//        Platform.runLater(()->{
-//
-//            this.app.renderStats();
-//        });
 
         System.out.println("koniec symulacji");
 
