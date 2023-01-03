@@ -95,7 +95,7 @@ public class App extends Application {
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         primaryStage.setWidth(880);
-        primaryStage.setHeight(900);
+        primaryStage.setHeight(bounds.getHeight());
 
         GridPane root= new GridPane();
         this.mainVBox.setAlignment(Pos.CENTER);

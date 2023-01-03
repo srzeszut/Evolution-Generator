@@ -6,6 +6,7 @@ import elements.Vector2d;
 import interfaces.IMapElement;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import maps.AbstractWorldMap;
 import simulation.SimulationEngine;
 
@@ -31,7 +33,7 @@ public class SimulationWindow {
     private final Scene scene;
     private int gridHeight= 20;
     private int gridWidth= 20;
-    private final int simulationWidth=950;
+    private final double simulationWidth;
     private SimulationEngine engine;
     private Image grassImage;
     private Image dominantImage;
@@ -51,9 +53,12 @@ public class SimulationWindow {
         this.grid.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.buttonsBox=new HBox(buttons());
         this.animalBox=new VBox();
-        this.animalBox.setPrefWidth(400);
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+        this.simulationWidth=bounds.getWidth()*0.5;
+        this.animalBox.setPrefWidth(bounds.getWidth()*0.2);
         statisticsBox = new VBox();
-        statisticsBox.setPrefWidth(400);
+        statisticsBox.setPrefWidth(bounds.getWidth()*0.2);
         this.scene=this.createScene();
         stopped=false;
         showDominant=false;
@@ -199,8 +204,8 @@ public class SimulationWindow {
     private void createGrid(){
         int maxX = map.getWidth();
         int maxY = map.getHeight();
-        this.gridWidth=this.simulationWidth/maxX;
-        this.gridHeight=this.simulationWidth/maxY;
+        this.gridWidth=(int) this.simulationWidth/maxX;
+        this.gridHeight=(int) this.simulationWidth/maxY;
 
         for (int i = 0; i < maxX; i++) {
             grid.getColumnConstraints().add(new ColumnConstraints(this.gridWidth));
