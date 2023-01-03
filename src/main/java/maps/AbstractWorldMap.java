@@ -99,8 +99,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     }
 
-    protected void spawnGrass(int numberOfGrass){//opcja jak juz sie nie mieszcza
-//        System.out.println("here");
+    protected void spawnGrass(int numberOfGrass){
         if(this.field instanceof ToxicBodies){
             this.field.generatePositions();
         }
@@ -112,9 +111,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
                 grassPositions.put(newPosition,clumpOfGrass);
             }
 
-
         }
-
 
     }
 
@@ -152,10 +149,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     @Override
     public void moveAnimals() {
         for(Animal animal:animalsList){
-//            System.out.println(animal.getEnergy());
             animal.rotate();
             animal.move();
-//            System.out.println(animal.getPosition());
         }
 
     }

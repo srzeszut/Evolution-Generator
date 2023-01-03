@@ -18,8 +18,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import maps.AbstractWorldMap;
 import simulation.SimulationEngine;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -36,13 +37,17 @@ public class SimulationWindow {
     private Image dominantImage;
     private final VBox statisticsBox;
     private Animal trackedAnimal;
+    private ArrayList<String[]> stringForCSV= new ArrayList<>();
     private boolean stopped;
     private boolean showDominant;
+    private int windowNumber;
+    private boolean saveToCSV;
 
     private final VBox animalBox;
     private final HBox buttonsBox;
-    public SimulationWindow(){
-
+    public SimulationWindow(int windowNumber,boolean saveToCSV){
+        this.windowNumber=windowNumber;
+        this.saveToCSV=saveToCSV;
         this.grid.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.buttonsBox=new HBox(buttons());
         this.animalBox=new VBox();
@@ -59,6 +64,7 @@ public class SimulationWindow {
         catch (FileNotFoundException err){
             out.println(err.getMessage());
         }
+        stringForCSV.add(new String[]{"Days", "NumberOfAnimals", "Number of Plants", "Free places","Dominant genotype","Average energy","Average dead age"});
     }
 
     private Scene createScene(){
@@ -103,9 +109,21 @@ public class SimulationWindow {
         Label ageCounter=new Label(Double.toString(this.map.getAverageAge()));
         HBox ageBox=createStatsElement(age,ageCounter);
 
+        if(saveToCSV){
+            stringForCSV.add(new String[]{Integer.toString(this.map.getDay()),Integer.toString(this.map.getNumberOfAnimals()),
+                    Integer.toString(this.map.getNumberOfGrass()),Integer.toString(this.map.getFreePositions()),this.map.getDominantGenome().toString(),
+                    Double.toString(this.map.getAverageEnergy()),Double.toString(this.map.getAverageAge())});
+        }
+
+
+
         VBox newStatisticsBox= new VBox(10,daysBox,animalsBox,plantsBox,genomeBox,energyBox,ageBox,freeBox);
         statisticsBox.getChildren().add(newStatisticsBox);
 
+    }
+
+    public boolean isSaveToCSV() {
+        return saveToCSV;
     }
 
     public void renderStats(){
@@ -205,7 +223,7 @@ public class SimulationWindow {
                 if( map.objectAt(position) instanceof Animal){
                     if(showDominant && stopped){
                         if( ((Animal) map.objectAt(position)).getGenome().equals(map.getDominantGenome())){
-                            element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight,dominantImage);
+                            element=new GuiElementBox(this.gridWidth,this.gridHeight,dominantImage);
                         }
                         else {
                             element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight);
@@ -233,7 +251,7 @@ public class SimulationWindow {
                 GridPane.setHalignment(element.getBox(), HPos.CENTER);
                 }
                 else if (map.objectAt(position) instanceof Grass) {
-                    element=new GuiElementBox((IMapElement) map.objectAt(position),this.gridWidth,this.gridHeight,grassImage);
+                    element=new GuiElementBox(this.gridWidth,this.gridHeight,grassImage);
                     grid.add(element.getBox(),position.getX(), position.getY(),1,1);
                     GridPane.setHalignment(element.getBox(), HPos.CENTER);
 
@@ -248,6 +266,8 @@ public class SimulationWindow {
 
         }
     }
+
+
 
     private Vector2d[] getAnimalsAndGrasses() {
         List<Grass> grasses = map.getGrass();
@@ -299,6 +319,34 @@ public class SimulationWindow {
     private void closeDominantGenotype(){
         this.showDominant=false;
         renderGrid();
+
+    }
+
+    public void saveToCSV(){
+        File csvFile = new File("simulationStats"+this.windowNumber+".csv");
+        try{
+            FileWriter fileWriter = new FileWriter(csvFile);
+            for (String[] data : this.stringForCSV) {
+                StringBuilder line = new StringBuilder();
+                for (int i = 0; i < data.length; i++) {
+                    line.append("\"");
+                    line.append(data[i].replaceAll("\"","\"\""));
+                    line.append("\"");
+                    if (i != data.length - 1) {
+                        line.append(',');
+                    }
+                }
+                line.append("\n");
+                fileWriter.write(line.toString());
+            }
+            fileWriter.close();
+        }
+        catch (IOException err){
+            out.println(err.getMessage());
+        }
+
+
+
 
     }
 

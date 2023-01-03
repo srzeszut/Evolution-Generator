@@ -4,30 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="start/stop working">
+    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="save to CSV">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/AbstractMapElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/AbstractMapElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Genome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Genome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Grass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/Vector2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/Vector2d.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/enums/MapDirection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/MapDirection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/enums/MoveDirection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fields/AbstractField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/AbstractField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fields/ForestedEquator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/GuiElementBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GuiElementBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IFieldOption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IMapElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IMapElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IMutation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IMutation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IPositionChangeObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IPositionChangeObserver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/IWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/IWorldMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/World.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/AbstractWorldMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/maps/Earth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maps/Earth.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/GenomeTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +134,7 @@
       <workItem from="1672669717204" duration="12512000" />
       <workItem from="1672697243057" duration="466000" />
       <workItem from="1672698141348" duration="35000" />
-      <workItem from="1672732911574" duration="9613000" />
+      <workItem from="1672732911574" duration="13997000" />
     </task>
     <task id="LOCAL-00001" summary="project start">
       <created>1671579392497</created>
@@ -237,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672745659880</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="refactored code">
+      <created>1672748643841</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1672748643841</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,7 +257,9 @@
     <MESSAGE value="almost done" />
     <MESSAGE value="loading configurations" />
     <MESSAGE value="start/stop working" />
-    <option name="LAST_COMMIT_MESSAGE" value="start/stop working" />
+    <MESSAGE value="refactored code" />
+    <MESSAGE value="save to CSV" />
+    <option name="LAST_COMMIT_MESSAGE" value="save to CSV" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

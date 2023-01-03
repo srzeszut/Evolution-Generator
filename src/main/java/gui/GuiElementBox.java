@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 
 public class GuiElementBox {
 
-    private VBox vbox ;
+    private final VBox vbox ;
     public GuiElementBox(IMapElement element,int width,int height) throws FileNotFoundException {
 
         Image image = new Image(new FileInputStream(element.getResource()));
@@ -24,7 +24,7 @@ public class GuiElementBox {
 
 
     }
-    public GuiElementBox(IMapElement element,int width,int height,Image image) {
+    public GuiElementBox(int width,int height,Image image) {
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);

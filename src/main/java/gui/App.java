@@ -19,9 +19,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -36,7 +34,7 @@ import maps.PortalMap;
 import mutations.LightMutation;
 import mutations.RandomMutation;
 import simulation.SimulationEngine;
-import javafx.scene.control.Button;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -64,6 +62,7 @@ public class App extends Application {
     private ListView spawningList;
     private ListView mutationList;
     private ListView genomeList;
+    private int windowNumber=1;
     private final int ROW_HEIGHT = 24;
 
     //simulation options
@@ -73,6 +72,8 @@ public class App extends Application {
     private ObservableList genomeOption;
 
     private Button startButton;
+    private CheckBox saveTOCSVCheckbox;
+    private boolean saveToCSV=false;
 
     private TextField minimumEnergyTextField;
     private TextField reproductionCostField;
@@ -114,35 +115,51 @@ public class App extends Application {
             this.fieldOption = spawningList.getSelectionModel().getSelectedIndices();
             this.mutationOption = mutationList.getSelectionModel().getSelectedIndices();
             this.genomeOption = genomeList.getSelectionModel().getSelectedIndices();
-            SimulationWindow newWindow=new SimulationWindow();
-            SimulationEngine newSimulation=setSimulationFromOptions(newWindow);
-            AbstractWorldMap newMap=newSimulation.getMap();
-            newWindow.setMap(newMap);
-            newWindow.createStats();
-            newWindow.setEngine(newSimulation);
+            saveToCSV=saveTOCSVCheckbox.isSelected();
+            SimulationWindow newWindow=new SimulationWindow(windowNumber,saveToCSV);
 
-            Stage simulationWindow=new Stage();
-
-            simulationWindow.setScene(newWindow.getScene());
-            simulationWindow.show();
-            simulationWindow.setX(bounds.getMinX());
-            simulationWindow.setY(bounds.getMinY());
-            simulationWindow.setWidth(bounds.getWidth());
-            simulationWindow.setHeight(bounds.getHeight());
-
-            Platform.runLater(newWindow::renderGrid);
-
-            Thread engineThread = new Thread(newWindow.getEngine(),"Simulation");
-            engineThread.start();
+            if(setSimulationFromOptions(newWindow)!=null) {
+                SimulationEngine newSimulation = setSimulationFromOptions(newWindow);
 
 
+                AbstractWorldMap newMap = newSimulation.getMap();
+                newWindow.setMap(newMap);
+                newWindow.createStats();
+                newWindow.setEngine(newSimulation);
 
-            simulationWindow.setOnCloseRequest(windowEvent -> {
+                Stage simulationWindowStage = new Stage();
+
+                simulationWindowStage.setScene(newWindow.getScene());
+                simulationWindowStage.show();
+                simulationWindowStage.setX(bounds.getMinX());
+                simulationWindowStage.setY(bounds.getMinY());
+                simulationWindowStage.setWidth(bounds.getWidth());
+                simulationWindowStage.setHeight(bounds.getHeight());
+                simulationWindowStage.setTitle("simulation " + windowNumber);
+                windowNumber++;
+
+                Platform.runLater(newWindow::renderGrid);
+
+                Thread engineThread = new Thread(newWindow.getEngine(), "Simulation");
+                engineThread.start();
+
+
+
+
+            simulationWindowStage.setOnCloseRequest(windowEvent -> {
                 System.out.println("Stage is closing");
+
+                if(newWindow.isSaveToCSV()){
+                    System.out.println("Saving to CSV");
+                    newWindow.saveToCSV();
+
+                }
                 newSimulation.end();
                 newSimulation.resume();
             });
+            }
             });
+
 
 
 
@@ -246,10 +263,12 @@ public class App extends Application {
         buttons.setAlignment(Pos.CENTER);
         VBox configurationBox= new VBox(20,configurations,buttons);
 
-        // Start Button
-//        HBox startButton = createStartButton();
+
         this.startButton =new Button("Start");
-        HBox startBox=createHBox(new Text(""),startButton);
+        this.saveTOCSVCheckbox=new CheckBox("Save to CSV");
+
+        HBox startBox=new HBox(20,startButton,saveTOCSVCheckbox);
+        startBox.setAlignment(Pos.CENTER);
 
         HBox animalAndGrassOptions=new HBox(50,new VBox(20,animalProperties, startingEnergyBox
                 , animalsAtTheBeginningBox,mutationBox,genomeLengthBox,genomeBox,minimumEnergyBox,reproductionBox)
@@ -294,7 +313,7 @@ public class App extends Application {
 
     }
     private SimulationEngine setSimulationFromOptions(SimulationWindow window){
-
+        try{
          int mapHeight=Integer.parseInt(this.heightTextField.getText());
          int mapWidth=Integer.parseInt(this.widthTextField.getText());
          int startingGrass=Integer.parseInt(this.grassAtTheBeginningTextField.getText());
@@ -349,6 +368,10 @@ public class App extends Application {
                 reproductionCost,0,genomeLength,mutation,genomeLength,choice,minimumEnergy,delay);
 
 
+    }
+    catch (IllegalArgumentException err){
+        System.out.println("Invalid Argument");
+        return null ;}
     }
 
     private HBox createHeadLineText(String text, int size) {
