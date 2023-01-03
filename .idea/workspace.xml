@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="almost done">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/conf1.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/conf2.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/conf3.properties" afterDir="false" />
+    <list default="true" id="83d3d4d0-f6eb-4591-89d1-274c2172d7b0" name="Changes" comment="loading configurations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/elements/AbstractMapElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/elements/AbstractMapElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/SimulationWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulation/SimulationEngine.java" afterDir="false" />
@@ -136,7 +132,7 @@
       <workItem from="1672669717204" duration="12512000" />
       <workItem from="1672697243057" duration="466000" />
       <workItem from="1672698141348" duration="35000" />
-      <workItem from="1672732911574" duration="2290000" />
+      <workItem from="1672732911574" duration="6492000" />
     </task>
     <task id="LOCAL-00001" summary="project start">
       <created>1671579392497</created>
@@ -208,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672695618871</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="loading configurations">
+      <created>1672735228014</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1672735228015</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,7 +239,8 @@
     <MESSAGE value="added genotype" />
     <MESSAGE value="added toxicbodies" />
     <MESSAGE value="almost done" />
-    <option name="LAST_COMMIT_MESSAGE" value="almost done" />
+    <MESSAGE value="loading configurations" />
+    <option name="LAST_COMMIT_MESSAGE" value="loading configurations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

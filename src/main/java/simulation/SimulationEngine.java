@@ -19,6 +19,7 @@ public class SimulationEngine implements Runnable {
     private AbstractWorldMap map;
     private final SimulationWindow app;
     private int delay ;
+    private boolean stopped;
     private boolean flag=false;
 
     Random random = new Random();
@@ -44,32 +45,30 @@ public class SimulationEngine implements Runnable {
 
         }
 
-
     }
     public void end(){
         this.flag=true;
 
     }
     public void stop() {
-        synchronized (this) {
-            try {
-                wait();
-            } catch (InterruptedException err) {
-                System.out.println("Watek został przerwany");
-            }
-        }
+        stopped = true;
     }
-    public void resume(){
+    public  void resume() {
+        stopped=false;
         synchronized (this){
             notify();
         }
+
     }
+
+
     public AbstractWorldMap getMap(){
         return this.map;
     }
 
     @Override
     public void run() {
+
 
         try{
             Thread.sleep(2000);
@@ -78,6 +77,21 @@ public class SimulationEngine implements Runnable {
         }
         while ((this.map.getAnimals().size())>0 && !flag)
          {
+             if(stopped){
+                 synchronized (this) {
+                     try {
+                         wait();
+                     } catch (InterruptedException err) {
+                         System.out.println("Watek został przerwany");
+                     }
+                 }
+             }
+//
+//             Set<Thread> threads = Thread.getAllStackTraces().keySet();
+//             System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
+//             for (Thread t : threads) {
+//                 System.out.printf("%-15s \t %-15s \t %-15d \t %s\n", t.getName(), t.getState(), t.getPriority(), t.isDaemon());
+//             }
             this.map.removeDead();
             this.map.moveAnimals();
             this.map.eatGrass();

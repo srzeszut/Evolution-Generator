@@ -44,6 +44,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 
 
 import static java.lang.System.out;
@@ -146,14 +147,17 @@ public class App extends Application {
             Platform.runLater(()->{
                 newWindow.renderGrid();
             });
-            Thread engineThread = new Thread(newWindow.getEngine());
+            Thread engineThread = new Thread(newWindow.getEngine(),"Simulation");
             newWindow.setEngineThread(engineThread);
             engineThread.start();
+
+
 
             simulationWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
                     System.out.println("Stage is closing");
                     newSimulation.end();
+                    newSimulation.resume();
 //                    engineThread.interrupt();
                 }
             });
@@ -304,7 +308,7 @@ public class App extends Application {
 
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Nie udało się załadować konfiguracji");
         }
 
     }

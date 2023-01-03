@@ -17,7 +17,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import maps.AbstractWorldMap;
 import simulation.SimulationEngine;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -270,15 +269,13 @@ public class SimulationWindow {
 
         stopButton.setOnAction((click->{
             this.stopped=true;
-            this.engineThread.suspend();
-//           this.engine.stop();
+            this.engine.stop();
+
 
         }));
         resumeButton.setOnAction((click)->{
-//            this.engine.resume();
-            this.engineThread.resume();
+            this.engine.resume();
             this.stopped=false;
-
 
 
         });
