@@ -27,29 +27,29 @@ import static java.lang.System.out;
 public class SimulationWindow {
     private Thread engineThread;
     private AbstractWorldMap map;
-    private GridPane grid = new GridPane();
-    private Scene scene;
+    private final GridPane grid = new GridPane();
+    private final Scene scene;
     private int gridHeight= 20;
     private int gridWidth= 20;
     private final int simulationWidth=950;
     private SimulationEngine engine;
     private Image grassImage;
     private Image dominantImage;
-    private  VBox stastisticsBox;
+    private final VBox statisticsBox;
     private Animal trackedAnimal;
     private boolean stopped;
     private boolean showDominant;
 
-    private  VBox animalBox;
-    private HBox buttonsBox;
+    private final VBox animalBox;
+    private final HBox buttonsBox;
     public SimulationWindow(){
 
         this.grid.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.buttonsBox=new HBox(buttons());
         this.animalBox=new VBox();
         this.animalBox.setPrefWidth(400);
-        stastisticsBox= new VBox();
-        stastisticsBox.setPrefWidth(400);
+        statisticsBox = new VBox();
+        statisticsBox.setPrefWidth(400);
         this.scene=this.createScene();
         stopped=false;
         showDominant=false;
@@ -64,9 +64,9 @@ public class SimulationWindow {
 
     private Scene createScene(){
 
-        HBox container =new HBox(10,new VBox(10,buttonsBox,stastisticsBox), grid,animalBox);
-        Scene simulationScene = new Scene(container, 900, 768);
-        return simulationScene;
+        HBox container =new HBox(10,new VBox(10,buttonsBox, statisticsBox), grid,animalBox);
+        return new Scene(container, 900, 768);
+
 
     }
     public void createStats(){
@@ -99,14 +99,14 @@ public class SimulationWindow {
         Label ageCounter=new Label(Double.toString(this.map.getAverageAge()));
         HBox ageBox=createStatsElement(age,ageCounter);
 
-        VBox newStastisticsBox= new VBox(10,daysBox,animalsBox,plantsBox,genomeBox,energyBox,ageBox,freeBox);
-        stastisticsBox.getChildren().add(newStastisticsBox);
+        VBox newStatisticsBox= new VBox(10,daysBox,animalsBox,plantsBox,genomeBox,energyBox,ageBox,freeBox);
+        statisticsBox.getChildren().add(newStatisticsBox);
 
     }
 
     public void renderStats(){
 
-        this.stastisticsBox.getChildren().clear();
+        this.statisticsBox.getChildren().clear();
         this.createStats();
 
 
@@ -156,8 +156,8 @@ public class SimulationWindow {
 //            this.trackedAnimal=null;
 //        });
 
-        VBox newStastisticsBox= new VBox(10,new Label("ANIMAL STATS"),genomeBox,activatedBox,energyBox,plantsBox,childrenBox,ageBox,deathBox);
-        animalBox.getChildren().add(newStastisticsBox);
+        VBox newStatisticsBox= new VBox(10,new Label("ANIMAL STATS"),genomeBox,activatedBox,energyBox,plantsBox,childrenBox,ageBox,deathBox);
+        animalBox.getChildren().add(newStatisticsBox);
 
 
 
@@ -243,7 +243,6 @@ public class SimulationWindow {
 
             }
 
-            ;
         }
     }
 
@@ -284,15 +283,9 @@ public class SimulationWindow {
 
         });
 
-        showDominantButton.setOnAction((click)->{
-            this.showDominantGenotype();
+        showDominantButton.setOnAction((click)-> this.showDominantGenotype());
 
-        });
-
-        closeDominantButton.setOnAction((click)->{
-            this.closeDominantGenotype();
-
-        });
+        closeDominantButton.setOnAction((click)-> this.closeDominantGenotype());
 
         return new VBox(20, new HBox(10,stopButton,resumeButton),new HBox(10,showDominantButton,closeDominantButton));
     }

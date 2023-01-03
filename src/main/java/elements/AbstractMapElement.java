@@ -1,6 +1,5 @@
 package elements;
 
-import interfaces.IFieldOption;
 import interfaces.IMapElement;
 
 public abstract class AbstractMapElement implements IMapElement {

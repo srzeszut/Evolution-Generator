@@ -83,6 +83,7 @@ public class SimulationEngine implements Runnable {
             this.map.eatGrass();
             this.map.reproduction();
             this.map.addNewGrass();
+             this.map.anotherDay();
 
             Platform.runLater(()->{
                 this.app.renderGrid();
@@ -92,7 +93,7 @@ public class SimulationEngine implements Runnable {
 
             });
 
-             this.map.anotherDay();
+
             try{
                 Thread.sleep(delay);
             }catch (InterruptedException err){

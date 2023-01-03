@@ -41,6 +41,9 @@ import simulation.SimulationEngine;
 import javafx.scene.control.Button;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 
 import static java.lang.System.out;
@@ -243,6 +246,21 @@ public class App extends Application {
         this.refreshTimeTextField = new TextField("1000");
         HBox refreshTimeBox = createHBox(refreshTimeText, this.refreshTimeTextField);
 
+        HBox configurations = createHeadLineText("Configurations:", 16);
+
+        Button configuration1=new Button("1");
+        configuration1.setOnAction((click)->loadConfigurations("src/main/resources/conf1.properties"));
+
+        Button configuration2=new Button("2");
+        configuration2.setOnAction((click)->loadConfigurations("src/main/resources/conf2.properties"));
+
+        Button configuration3=new Button("3");
+        configuration3.setOnAction((click)->loadConfigurations("src/main/resources/conf3.properties"));
+
+        HBox buttons=new HBox(20,configuration1,configuration2,configuration3);
+        buttons.setAlignment(Pos.CENTER);
+        VBox configurationBox= new VBox(20,configurations,buttons);
+
         // Start Button
 //        HBox startButton = createStartButton();
         this.startButton =new Button("Start");
@@ -250,7 +268,7 @@ public class App extends Application {
 
         HBox animalAndGrassOptions=new HBox(50,new VBox(20,animalProperties, startingEnergyBox
                 , animalsAtTheBeginningBox,mutationBox,genomeLengthBox,genomeBox,minimumEnergyBox,reproductionBox)
-                ,new VBox(20,grassProperties,grassAtTheBeginningBox,grassEverydayBox,spawnOptionsBox,grassProfitBox));
+                ,new VBox(20,grassProperties,grassAtTheBeginningBox,grassEverydayBox,spawnOptionsBox,grassProfitBox,configurationBox));
         animalAndGrassOptions.setAlignment(Pos.CENTER);
 
         this.optionsVBox = new VBox(welcomeText, mapProperties, heightBox, widthBox,optionsBox,animalAndGrassOptions ,  otherOptions,
@@ -260,6 +278,34 @@ public class App extends Application {
 
         this.mainVBox = new VBox(this.optionsVBox);
 
+
+    }
+
+    private void loadConfigurations(String path){
+
+        try (InputStream input = new FileInputStream(path)) {
+
+            Properties prop = new Properties();
+
+            // load a properties file
+            prop.load(input);
+
+            // get the property value
+            this.heightTextField.setText(prop.getProperty("HEIGHT"));
+            this.widthTextField.setText(prop.getProperty("WIDTH"));
+            this.startingEnergyTextField.setText(prop.getProperty("STARTING_ENERGY"));
+            this.animalsAtTheBeginningTextField.setText(prop.getProperty("STARTING_ANIMALS"));
+            this.genomeLengthField.setText(prop.getProperty("GENOME_LENGTH"));
+            this.minimumEnergyTextField.setText(prop.getProperty("MIN_ENERGY"));
+            this.reproductionCostField.setText(prop.getProperty("REPRODUCTION_COST"));
+            this.grassAtTheBeginningTextField.setText(prop.getProperty("STARTING_GRASS"));
+            this.grassEverydayField.setText(prop.getProperty("SPAWN_GRASS"));
+            this.grassProfitTextField.setText(prop.getProperty("GRASS_PROFIT"));
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
     private SimulationEngine setSimulationFromOptions(SimulationWindow window){
